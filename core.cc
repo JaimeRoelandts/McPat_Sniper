@@ -1138,7 +1138,7 @@ EXECU::EXECU(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip
 	  	    interface_ip.throughput       = 1.0/clockRate;
 	  	    interface_ip.latency          = 1.0/clockRate;
 	  		}
-	  	else
+	  else
 	  		{
 	  		interface_ip.wt                  =Global;
 	  		interface_ip.wire_is_mat_type = 2;//start from semi-global since local wires are already used
@@ -1396,7 +1396,7 @@ RENAMINGU::RENAMINGU(ParseXML* XML_interface, int ithCore_, InputParameter* inte
 			area.set_area(area.get_area()+ fFRAT->area.get_area());
 
 		}
-		else if ((coredynp.rm_ty ==CAMbased))
+		else if (coredynp.rm_ty == CAMbased)
 		{
 			//FRAT
 			tag							     = coredynp.arch_ireg_width;
@@ -1640,7 +1640,7 @@ RENAMINGU::RENAMINGU(ParseXML* XML_interface, int ithCore_, InputParameter* inte
 			area.set_area(area.get_area()+ fFRAT->area.get_area());
 
 		}
-		else if ((coredynp.rm_ty ==CAMbased))
+		else if (coredynp.rm_ty == CAMbased)
 		{
 			//FRAT
 			tag							     = coredynp.arch_ireg_width;
@@ -1880,7 +1880,7 @@ void BranchPredictor::computeEnergy(bool is_tdp)
     	RAS->stats_t.writeAc.access = w_access;
     	RAS->tdp_stats = RAS->stats_t;
     }
-    else
+	else
     {
     	//The resolution of BPT accesses is coarse, but this is
     	//because most simulators cannot track finer grained details
@@ -2068,7 +2068,7 @@ void InstFetchU::computeEnergy(bool is_tdp)
 
 
     }
-    else
+	else
     {
      	//init stats for Runtime Dynamic (RTP)
     	icache.caches->stats_t.readAc.access  = XML->sys.core[ithCore].icache.read_accesses;
@@ -2118,7 +2118,7 @@ void InstFetchU::computeEnergy(bool is_tdp)
     }
 
     icache.power_t.readOp.dynamic	+= (icache.caches->stats_t.readAc.hit*icache.caches->local_result.power.readOp.dynamic+
-    		//icache.caches->stats_t.readAc.miss*icache.caches->local_result.tag_array2->power.readOp.dynamic+
+    		//icache.caches->stats_t.readAc.miss*icache.caches->local_result.tag_array2.power.readOp.dynamic+
     		icache.caches->stats_t.readAc.miss*icache.caches->local_result.power.readOp.dynamic+ //assume tag data accessed in parallel
     		icache.caches->stats_t.readAc.miss*icache.caches->local_result.power.writeOp.dynamic); //read miss in Icache cause a write to Icache
     icache.power_t.readOp.dynamic	+=  icache.missb->stats_t.readAc.access*icache.missb->local_result.power.searchOp.dynamic +
@@ -2332,7 +2332,7 @@ void RENAMINGU::computeEnergy(bool is_tdp)
 					fFRAT->tdp_stats = fFRAT->stats_t;
 
 				}
-				else if ((coredynp.rm_ty ==CAMbased))
+				else if (coredynp.rm_ty ==CAMbased)
 				{
 					iFRAT->stats_t.readAc.access   = iFRAT->l_ip.num_search_ports;
 					iFRAT->stats_t.writeAc.access  = iFRAT->l_ip.num_wr_ports;
@@ -2373,7 +2373,7 @@ void RENAMINGU::computeEnergy(bool is_tdp)
 					fFRAT->tdp_stats = fFRAT->stats_t;
 
 				}
-				else if ((coredynp.rm_ty ==CAMbased))
+				else if (coredynp.rm_ty ==CAMbased)
 				{
 					iFRAT->stats_t.readAc.access   = iFRAT->l_ip.num_search_ports;
 					iFRAT->stats_t.writeAc.access  = iFRAT->l_ip.num_wr_ports;
@@ -2420,7 +2420,7 @@ void RENAMINGU::computeEnergy(bool is_tdp)
 					fFRAT->stats_t.writeAc.access  = XML->sys.core[ithCore].fp_rename_writes;
 					fFRAT->rtp_stats = fFRAT->stats_t;
 				}
-				else if ((coredynp.rm_ty ==CAMbased))
+				else if (coredynp.rm_ty ==CAMbased)
 				{
 					iFRAT->stats_t.readAc.access   = XML->sys.core[ithCore].rename_reads;
 					iFRAT->stats_t.writeAc.access  = XML->sys.core[ithCore].rename_writes;
@@ -2460,7 +2460,7 @@ void RENAMINGU::computeEnergy(bool is_tdp)
 					fFRAT->stats_t.searchAc.access  = XML->sys.core[ithCore].committed_fp_instructions;
 					fFRAT->rtp_stats = fFRAT->stats_t;
 				}
-				else if ((coredynp.rm_ty ==CAMbased))
+				else if (coredynp.rm_ty ==CAMbased)
 				{
 					iFRAT->stats_t.readAc.access   = XML->sys.core[ithCore].rename_reads;
 					iFRAT->stats_t.writeAc.access  = XML->sys.core[ithCore].rename_writes;
@@ -2512,7 +2512,7 @@ void RENAMINGU::computeEnergy(bool is_tdp)
 						*(fFRAT->local_result.power.readOp.dynamic + fdcl->power.readOp.dynamic)
 						+fFRAT->stats_t.writeAc.access*fFRAT->local_result.power.writeOp.dynamic);
 			}
-			else if ((coredynp.rm_ty ==CAMbased))
+			else if (coredynp.rm_ty ==CAMbased)
 			{
 				iFRAT->power_t.reset();
 				fFRAT->power_t.reset();
@@ -2555,7 +2555,7 @@ void RENAMINGU::computeEnergy(bool is_tdp)
 						+fFRAT->stats_t.writeAc.access*fFRAT->local_result.power.writeOp.dynamic
 						+fFRAT->stats_t.searchAc.access*fFRAT->local_result.power.searchOp.dynamic);
 			}
-			else if ((coredynp.rm_ty ==CAMbased))
+			else if (coredynp.rm_ty ==CAMbased)
 			{
 				iFRAT->power_t.reset();
 				fFRAT->power_t.reset();
@@ -2838,7 +2838,7 @@ void SchedulerU::computeEnergy(bool is_tdp)
 		}
 
      }
-    else
+	else
     {//rtp
 		if (coredynp.core_ty==OOO)
 		{
@@ -2940,7 +2940,7 @@ void SchedulerU::computeEnergy(bool is_tdp)
       	}
 
      }
-    else
+	else
     {//rtp
 		if (coredynp.core_ty==OOO)
 		{
@@ -3095,7 +3095,7 @@ void LoadStoreU::computeEnergy(bool is_tdp)
 	    		LoadQ->tdp_stats = LoadQ->stats_t;
 	    	}
 	    }
-	    else
+	else
 	    {
 	    	//init stats for Runtime Dynamic (RTP)
 	    	dcache.caches->stats_t.readAc.access  = XML->sys.core[ithCore].dcache.read_accesses;
@@ -3156,7 +3156,7 @@ void LoadStoreU::computeEnergy(bool is_tdp)
 	LSQ->power_t.reset();
     dcache.power_t.readOp.dynamic	+= (dcache.caches->stats_t.readAc.hit*dcache.caches->local_result.power.readOp.dynamic+
     		dcache.caches->stats_t.readAc.miss*dcache.caches->local_result.power.readOp.dynamic+ //assuming D cache is in the fast model which read tag and data together
-    		dcache.caches->stats_t.writeAc.miss*dcache.caches->local_result.tag_array2->power.readOp.dynamic+
+    		dcache.caches->stats_t.writeAc.miss*dcache.caches->local_result.tag_array2.power.readOp.dynamic+
     		dcache.caches->stats_t.writeAc.access*dcache.caches->local_result.power.writeOp.dynamic);
 
     if (cache_p==Write_back)
@@ -3349,7 +3349,7 @@ void MemManU::computeEnergy(bool is_tdp)
     	dtlb->stats_t.readAc.hit     = dtlb->stats_t.readAc.access - dtlb->stats_t.readAc.miss;
     	dtlb->tdp_stats = dtlb->stats_t;
      }
-    else
+	else
     {
     	//init stats for Runtime Dynamic (RTP)
     	itlb->stats_t.readAc.access  = XML->sys.core[ithCore].itlb.total_accesses;
@@ -3376,7 +3376,7 @@ void MemManU::computeEnergy(bool is_tdp)
 		dtlb->power = dtlb->power_t + dtlb->local_result.power *pppm_lkg;
 		power     = power + itlb->power + dtlb->power;
 	    }
-	    else
+	else
 	    {
 			itlb->rt_power = itlb->power_t + itlb->local_result.power *pppm_lkg;
 			dtlb->rt_power = dtlb->power_t + dtlb->local_result.power *pppm_lkg;
@@ -3457,7 +3457,7 @@ void RegFU::computeEnergy(bool is_tdp)
         	RFWIN->tdp_stats = RFWIN->stats_t;
     	}
      }
-    else
+	else
     {
     	//init stats for Runtime Dynamic (RTP)
     	IRF->stats_t.readAc.access  = XML->sys.core[ithCore].int_regfile_reads;//TODO: no diff on archi and phy

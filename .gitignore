@@ -30,3 +30,11 @@
 # McPAT custom
 mcpat
 obj_opt/
+
+mcpat-1.0*
+
+# Cacti
+cacti/cacti
+
+# bear
+compile_commands.json

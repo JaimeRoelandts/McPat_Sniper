@@ -103,6 +103,37 @@ void ParseXML::parse(char* filepath)
 //		cout<<"Private L2: Number of L2s must equal to Number of Cores"<<endl;
 //		exit(0);
 //	}
+	if (sys.number_of_cores > MAX_NUM_CORES)
+	{
+	   cerr << "Cannot have more than " << MAX_NUM_CORES << " cores" << endl;
+	   exit(1);
+	}
+	if (sys.number_of_L1Directories > MAX_NUM_CORES)
+	{
+	   cerr << "Cannot have more than " << MAX_NUM_CORES << " L1Directories" << endl;
+	   exit(1);
+	}
+	if (sys.number_of_L2Directories > MAX_NUM_CORES)
+	{
+	   cerr << "Cannot have more than " << MAX_NUM_CORES << " L2Directories" << endl;
+	   exit(1);
+	}
+	if (sys.number_of_L2s > MAX_NUM_CORES)
+	{
+	   cerr << "Cannot have more than " << MAX_NUM_CORES << " L2s" << endl;
+	   exit(1);
+	}
+	if (sys.number_of_L3s > MAX_NUM_CORES)
+	{
+	   cerr << "Cannot have more than " << MAX_NUM_CORES << " L3s" << endl;
+	   exit(1);
+	}
+	if (sys.number_of_NoCs > MAX_NUM_CORES)
+	{
+	   cerr << "Cannot have more than " << MAX_NUM_CORES << " NoCs" << endl;
+	   exit(1);
+	}
+
 
 	itmp=xNode2.nChildNode("stat");
 	for(i=0; i<itmp; i++)
@@ -1623,7 +1654,8 @@ void ParseXML::initialize() //Initialize all
 		for (j=0; j<20; j++) sys.L1Directory[i].Dir_config[j]=1;
 		for (j=0; j<20; j++) sys.L1Directory[i].buffer_sizes[j]=1;
 		sys.L1Directory[i].clockrate=1;
-		sys.L1Directory[i].ports[20]=1;
+		// sys.L1Directory[i].ports[20]=1;
+		sys.L1Directory[i].ports[19]=1;
 		sys.L1Directory[i].device_type=1;
 		sys.L1Directory[i].vdd =0;
 		strcpy(sys.L1Directory[i].threeD_stack,"default");
@@ -1638,7 +1670,8 @@ void ParseXML::initialize() //Initialize all
 		for (j=0; j<20; j++) sys.L2Directory[i].Dir_config[j]=1;
 		for (j=0; j<20; j++) sys.L2Directory[i].buffer_sizes[j]=1;
 		sys.L2Directory[i].clockrate=1;
-		sys.L2Directory[i].ports[20]=1;
+		//sys.L2Directory[i].ports[20]=1;
+		sys.L2Directory[i].ports[19]=1;
 		sys.L2Directory[i].device_type=1;
 		sys.L2Directory[i].vdd =0;
 		strcpy(sys.L2Directory[i].threeD_stack,"default");
@@ -1753,7 +1786,8 @@ void ParseXML::initialize() //Initialize all
 		sys.NoC[i].xbar0.number_of_outputs_of_crossbars=1;
 		sys.NoC[i].xbar0.flit_bits=1;
 		sys.NoC[i].xbar0.input_buffer_entries_per_port=1;
-		sys.NoC[i].xbar0.ports_of_input_buffer[20]=1;
+		// sys.NoC[i].xbar0.ports_of_input_buffer[20]=1;
+		sys.NoC[i].xbar0.ports_of_input_buffer[19]=1;
 		sys.NoC[i].xbar0.crossbar_accesses=1;
 	}
 	//system_mem
