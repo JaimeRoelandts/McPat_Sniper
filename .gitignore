@@ -29,7 +29,7 @@
 
 # McPAT custom
 mcpat
-obj_opt/
+obj_*/
 
 mcpat-1.0*
 

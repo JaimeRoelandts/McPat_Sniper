@@ -3,40 +3,6 @@ SHELL = /bin/sh
 .PHONY: all depend clean
 .SUFFIXES: .cc .o
 
-ifndef NTHREADS
-  NTHREADS = 4
-endif
-
-
-LIBS = 
-INCS = -lm
-
-ifeq ($(TAG),dbg)
-  DBG = -Wall 
-  OPT = -ggdb -g -O0 -DNTHREADS=1 -Icacti
-else
-  DBG = 
-  OPT = -Werror -O3 -msse2 -mfpmath=sse -DNTHREADS=$(NTHREADS) -Icacti
-  #OPT = -O0 -DNTHREADS=$(NTHREADS)
-endif
-
-ifeq ($(ARCH),ia32)
-  OPT += -m32
-endif
-
-ifneq ($(CACHE),)
-  OPT += -DENABLE_CACHE
-  LIBS += -ldb
-endif
-
-
-#CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
-CXXFLAGS = -Wno-unknown-pragmas $(DBG) $(OPT) 
-CXX = g++
-CC  = gcc
-
-VPATH = cacti
-
 SRCS  = \
   Ucache.cc \
   XML_Parse.cc \
@@ -74,19 +40,51 @@ SRCS  = \
 
 OBJS = $(patsubst %.cc,obj_$(TAG)/%.o,$(SRCS))
 
+ifndef NTHREADS
+  NTHREADS = 4
+endif
+
+
+LIBS = 
+INCS = -lm
+
+ifeq ($(TAG),dbg)
+  DBG = -Wall 
+  OPT = -ggdb -g -O0 -DNTHREADS=1 -Icacti
+else
+  DBG = 
+  OPT = -Werror -O3 -msse2 -mfpmath=sse -DNTHREADS=$(NTHREADS) -Icacti
+  #OPT = -O0 -DNTHREADS=$(NTHREADS)
+endif
+
+ifeq ($(ARCH),ia32)
+  OPT += -m32
+endif
+
+ifneq ($(CACHE),)
+  LIBS += -ldb
+  OBJS := $(subst io.o,io_cache.o,$(OBJS))
+  TARGET:=$(TARGET)_cache
+endif
+
+#CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
+CXXFLAGS = -Wno-unknown-pragmas $(DBG) $(OPT) 
+CXX = g++
+CC  = gcc
+
+VPATH = cacti
 all: obj_$(TAG)/$(TARGET)
-	cp -f obj_$(TAG)/$(TARGET) $(TARGET)$(SUFFIX)
+	cp -f obj_$(TAG)/$(TARGET) mcpat$(SUFFIX)
 
 obj_$(TAG)/$(TARGET) : $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(INCS) $(CXXFLAGS) $(LIBS) -pthread
 
-#obj_$(TAG)/%.o : %.cc
-#	$(CXX) -c $(CXXFLAGS) $(INCS) -o $@ $<
-
 obj_$(TAG)/%.o : %.cc
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+obj_$(TAG)/%_cache.o : %.cc
+	$(CXX) $(CXXFLAGS) -DENABLE_CACHE -c $< -o $@
+
 clean:
-	-rm -f *.o $(TARGET)
-
-
+	-rm -f *.o $(TARGET) $(TARGET)_CACHE $(TARGET)$(SUFFIX)
+# $(info If a SUFFIX was provided at making, you need to provide it as well for cleanup)
