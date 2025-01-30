@@ -19,20 +19,10 @@ else
   OPT = -O3 -msse2 -mfpmath=sse -DNTHREADS=$(NTHREADS)
 endif
 
-ifeq ($(ARCH),ia32)
-  OPT += -m32
-endif
-
-ifneq ($(CACHE),)
-  OPT += -DENABLE_CACHE
-  LIBS += -ldb
-endif
-
-
 #CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
 CXXFLAGS = -Wno-unknown-pragmas $(DBG) $(OPT) 
-CXX = g++
-CC  = gcc
+CXX = g++ -m32
+CC  = gcc -m32
 
 SRCS  = area.cc bank.cc mat.cc main.cc Ucache.cc io.cc technology.cc basic_circuit.cc parameter.cc \
 		decoder.cc component.cc uca.cc subarray.cc wire.cc htree2.cc \
