@@ -342,7 +342,7 @@ MCFrontEnd::MCFrontEnd(ParseXML *XML_interface,InputParameter* interface_ip_, co
 
   //read buffers.
   data    					 	   = (int)ceil(mcp.dataBusWidth/8.0);//Support key words first operation //8 means converting bit to Byte
-  interface_ip.cache_sz            = data*XML->sys.mc.IO_buffer_size_per_channel;//*llcBlockSize;
+  interface_ip.cache_sz            = data*XML->sys.mc.io_buffer_size_per_channel;//*llcBlockSize;
   interface_ip.line_sz             = data;
   interface_ip.assoc               = 1;
   interface_ip.nbanks              = 1;
@@ -367,7 +367,7 @@ MCFrontEnd::MCFrontEnd(ParseXML *XML_interface,InputParameter* interface_ip_, co
 
   //write buffer
   data    					 	   = (int)ceil(mcp.dataBusWidth/8.0);//Support key words first operation //8 means converting bit to Byte
-  interface_ip.cache_sz            = data*XML->sys.mc.IO_buffer_size_per_channel;//*llcBlockSize;
+  interface_ip.cache_sz            = data*XML->sys.mc.io_buffer_size_per_channel;//*llcBlockSize;
   interface_ip.line_sz             = data;
   interface_ip.assoc               = 1;
   interface_ip.nbanks              = 1;
@@ -406,7 +406,7 @@ void MCFrontEnd::computeEnergy(bool is_tdp)
 	    	writeBuffer->tdp_stats = writeBuffer->stats_t;
 
 	    }
-	    else
+	else
 	    {
 	    	//init stats for runtime power (RTP)
 	    	frontendBuffer->stats_t.readAc.access  = XML->sys.mc.memory_reads *mcp.llcBlockSize*8.0/mcp.dataBusWidth*mcp.dataBusWidth/72;
@@ -452,7 +452,7 @@ void MCFrontEnd::computeEnergy(bool is_tdp)
     	        		writeBuffer->local_result.power)*pppm_lkg;
 
     }
-    else
+	else
     {
     	rt_power = rt_power + frontendBuffer->power_t + readBuffer->power_t + writeBuffer->power_t +
     	        (frontendBuffer->local_result.power +
@@ -710,7 +710,7 @@ void MemoryController::set_mc_param()
 		//PHY.memAccesses=PHY.peakDataTransferRate;//this is the max power
 		//PHY.llcBlocksize=llcBlockSize;
 		mcp.frontend_duty_cycle = 0.5;//for max power, the actual off-chip links is bidirectional but time shared
-		mcp.LVDS = XML->sys.mc.LVDS;
+		mcp.LVDS = XML->sys.mc.lvds;
 		mcp.type = XML->sys.mc.type;
 		mcp.withPHY = XML->sys.mc.withPHY;
 

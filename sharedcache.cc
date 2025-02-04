@@ -29,20 +29,11 @@
  *
  ***************************************************************************/
 
-#include "io.h"
-#include "parameter.h"
 #include "array.h"
 #include "const.h"
-#include "logic.h"
-#include "basic_circuit.h"
-#include "arbiter.h"
-#include <string.h>
 #include <iostream>
-#include <algorithm>
 #include "XML_Parse.h"
-#include <string.h>
 #include <cmath>
-#include <assert.h>
 #include "sharedcache.h"
 
 SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter* interface_ip_, enum cache_level cacheL_)
@@ -78,7 +69,7 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   		interface_ip.wire_is_mat_type = 0;
   		interface_ip.wire_os_mat_type = 1;
   		}
-  	else
+  else
   		{
   		interface_ip.wt                  =Global;
   		interface_ip.wire_is_mat_type = 2;
@@ -303,8 +294,8 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   interface_ip.nbanks              = 1;
   interface_ip.out_w               = interface_ip.line_sz*8;
   interface_ip.access_mode         = 0;
-  interface_ip.throughput          = XML->sys.L2[ithCache].L2_config[4]/clockRate;//means cycle time
-  interface_ip.latency             = XML->sys.L2[ithCache].L2_config[5]/clockRate;//means access time
+  interface_ip.throughput          = XML->sys.L2[ithCache].cache_config[4]/clockRate;//means cycle time
+  interface_ip.latency             = XML->sys.L2[ithCache].cache_config[5]/clockRate;//means access time
   interface_ip.obj_func_dyn_energy = 0;
   interface_ip.obj_func_dyn_power  = 0;
   interface_ip.obj_func_leak_power = 0;
@@ -331,8 +322,8 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   interface_ip.nbanks              = 1;
   interface_ip.out_w               = interface_ip.line_sz*8;
   interface_ip.access_mode         = 0;
-  interface_ip.throughput          =  XML->sys.L2[ithCache].L2_config[4]/clockRate;
-  interface_ip.latency             =  XML->sys.L2[ithCache].L2_config[5]/clockRate;
+  interface_ip.throughput          =  XML->sys.L2[ithCache].cache_config[4]/clockRate;
+  interface_ip.latency             =  XML->sys.L2[ithCache].cache_config[5]/clockRate;
   interface_ip.obj_func_dyn_energy = 0;
   interface_ip.obj_func_dyn_power  = 0;
   interface_ip.obj_func_leak_power = 0;
@@ -359,8 +350,8 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   interface_ip.nbanks              = 1;
   interface_ip.out_w               = interface_ip.line_sz*8;
   interface_ip.access_mode         = 0;
-  interface_ip.throughput          = XML->sys.L2[ithCache].L2_config[4]/clockRate;
-  interface_ip.latency             = XML->sys.L2[ithCache].L2_config[5]/clockRate;
+  interface_ip.throughput          = XML->sys.L2[ithCache].cache_config[4]/clockRate;
+  interface_ip.latency             = XML->sys.L2[ithCache].cache_config[5]/clockRate;
   interface_ip.obj_func_dyn_energy = 0;
   interface_ip.obj_func_dyn_power  = 0;
   interface_ip.obj_func_leak_power = 0;
@@ -387,8 +378,8 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   interface_ip.nbanks              = 1;
   interface_ip.out_w               = interface_ip.line_sz*8;
   interface_ip.access_mode         = 0;
-  interface_ip.throughput          = XML->sys.L2[ithCache].L2_config[4]/clockRate;
-  interface_ip.latency             = XML->sys.L2[ithCache].L2_config[4]/clockRate;
+  interface_ip.throughput          = XML->sys.L2[ithCache].cache_config[4]/clockRate;
+  interface_ip.latency             = XML->sys.L2[ithCache].cache_config[4]/clockRate;
   interface_ip.obj_func_dyn_energy = 0;
   interface_ip.obj_func_dyn_power  = 0;
   interface_ip.obj_func_leak_power = 0;
@@ -451,8 +442,8 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   interface_ip.nbanks              = 1;
   interface_ip.out_w               = interface_ip.line_sz*8;
   interface_ip.access_mode         = 0;
-  interface_ip.throughput          = XML->sys.L2[ithCache].L2_config[4]/clockRate;//means cycle time
-  interface_ip.latency             = XML->sys.L2[ithCache].L2_config[5]/clockRate;//means access time
+  interface_ip.throughput          = XML->sys.L2[ithCache].cache_config[4]/clockRate;//means cycle time
+  interface_ip.latency             = XML->sys.L2[ithCache].cache_config[5]/clockRate;//means access time
   interface_ip.obj_func_dyn_energy = 0;
   interface_ip.obj_func_dyn_power  = 0;
   interface_ip.obj_func_leak_power = 0;
@@ -479,8 +470,8 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   interface_ip.nbanks              = 1;
   interface_ip.out_w               = interface_ip.line_sz*8;
   interface_ip.access_mode         = 0;
-  interface_ip.throughput          =  XML->sys.L2[ithCache].L2_config[4]/clockRate;
-  interface_ip.latency             =  XML->sys.L2[ithCache].L2_config[5]/clockRate;
+  interface_ip.throughput          =  XML->sys.L2[ithCache].cache_config[4]/clockRate;
+  interface_ip.latency             =  XML->sys.L2[ithCache].cache_config[5]/clockRate;
   interface_ip.obj_func_dyn_energy = 0;
   interface_ip.obj_func_dyn_power  = 0;
   interface_ip.obj_func_leak_power = 0;
@@ -507,8 +498,8 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   interface_ip.nbanks              = 1;
   interface_ip.out_w               = interface_ip.line_sz*8;
   interface_ip.access_mode         = 0;
-  interface_ip.throughput          = XML->sys.L2[ithCache].L2_config[4]/clockRate;
-  interface_ip.latency             = XML->sys.L2[ithCache].L2_config[5]/clockRate;
+  interface_ip.throughput          = XML->sys.L2[ithCache].cache_config[4]/clockRate;
+  interface_ip.latency             = XML->sys.L2[ithCache].cache_config[5]/clockRate;
   interface_ip.obj_func_dyn_energy = 0;
   interface_ip.obj_func_dyn_power  = 0;
   interface_ip.obj_func_leak_power = 0;
@@ -535,8 +526,8 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
   interface_ip.nbanks              = 1;
   interface_ip.out_w               = interface_ip.line_sz*8;
   interface_ip.access_mode         = 0;
-  interface_ip.throughput          = XML->sys.L2[ithCache].L2_config[4]/clockRate;
-  interface_ip.latency             = XML->sys.L2[ithCache].L2_config[5]/clockRate;
+  interface_ip.throughput          = XML->sys.L2[ithCache].cache_config[4]/clockRate;
+  interface_ip.latency             = XML->sys.L2[ithCache].cache_config[5]/clockRate;
   interface_ip.obj_func_dyn_energy = 0;
   interface_ip.obj_func_dyn_power  = 0;
   interface_ip.obj_func_leak_power = 0;
@@ -558,13 +549,13 @@ SharedCache::SharedCache(ParseXML* XML_interface, int ithCache_, InputParameter*
 	  interface_ip.specific_tag        = 1;
 	  interface_ip.tag_w               = tag;
 	  interface_ip.line_sz             = data;
-	  interface_ip.cache_sz            = XML->sys.domain_size*data*XML->sys.L2[ithCache].L2_config[0]/XML->sys.L2[ithCache].L2_config[1];
+	  interface_ip.cache_sz            = XML->sys.domain_size*data*XML->sys.L2[ithCache].cache_config[0]/XML->sys.L2[ithCache].cache_config[1];
 	  interface_ip.assoc               = 0;
 	  interface_ip.nbanks              = 1024;
 	  interface_ip.out_w               = interface_ip.line_sz*8;
 	  interface_ip.access_mode         = 0;
-	  interface_ip.throughput          = XML->sys.L2[ithCache].L2_config[4]/clockRate;
-	  interface_ip.latency             = XML->sys.L2[ithCache].L2_config[5]/clockRate;
+	  interface_ip.throughput          = XML->sys.L2[ithCache].cache_config[4]/clockRate;
+	  interface_ip.latency             = XML->sys.L2[ithCache].cache_config[5]/clockRate;
 	  interface_ip.obj_func_dyn_energy = 0;
 	  interface_ip.obj_func_dyn_power  = 0;
 	  interface_ip.obj_func_leak_power = 0;
@@ -1062,12 +1053,12 @@ void SharedCache::set_cache_param()
 		interface_ip.data_arr_peri_global_tech_type = XML->sys.L2[ithCache].device_type;
 		interface_ip.tag_arr_ram_cell_tech_type     = XML->sys.L2[ithCache].device_type;
 		interface_ip.tag_arr_peri_global_tech_type  = XML->sys.L2[ithCache].device_type;
-		cachep.capacity      = XML->sys.L2[ithCache].L2_config[0];
-		cachep.blockW        = XML->sys.L2[ithCache].L2_config[1];
-		cachep.assoc         = XML->sys.L2[ithCache].L2_config[2];
-		cachep.nbanks        = XML->sys.L2[ithCache].L2_config[3];
-		cachep.throughput    = XML->sys.L2[ithCache].L2_config[4]/cachep.clockRate;
-		cachep.latency       = XML->sys.L2[ithCache].L2_config[5]/cachep.clockRate;
+		cachep.capacity      = XML->sys.L2[ithCache].cache_config[0];
+		cachep.blockW        = XML->sys.L2[ithCache].cache_config[1];
+		cachep.assoc         = XML->sys.L2[ithCache].cache_config[2];
+		cachep.nbanks        = XML->sys.L2[ithCache].cache_config[3];
+		cachep.throughput    = XML->sys.L2[ithCache].cache_config[4]/cachep.clockRate;
+		cachep.latency       = XML->sys.L2[ithCache].cache_config[5]/cachep.clockRate;
 		cachep.missb_size    = XML->sys.L2[ithCache].buffer_sizes[0];
 		cachep.fu_size       = XML->sys.L2[ithCache].buffer_sizes[1];
 		cachep.prefetchb_size= XML->sys.L2[ithCache].buffer_sizes[2];
@@ -1123,12 +1114,12 @@ void SharedCache::set_cache_param()
 		interface_ip.data_arr_peri_global_tech_type = XML->sys.L3[ithCache].device_type;
 		interface_ip.tag_arr_ram_cell_tech_type     = XML->sys.L3[ithCache].device_type;
 		interface_ip.tag_arr_peri_global_tech_type  = XML->sys.L3[ithCache].device_type;
-		cachep.capacity      = XML->sys.L3[ithCache].L3_config[0];
-		cachep.blockW        = XML->sys.L3[ithCache].L3_config[1];
-		cachep.assoc         = XML->sys.L3[ithCache].L3_config[2];
-		cachep.nbanks        = XML->sys.L3[ithCache].L3_config[3];
-		cachep.throughput    = XML->sys.L3[ithCache].L3_config[4]/cachep.clockRate;
-		cachep.latency       = XML->sys.L3[ithCache].L3_config[5]/cachep.clockRate;
+		cachep.capacity      = XML->sys.L3[ithCache].cache_config[0];
+		cachep.blockW        = XML->sys.L3[ithCache].cache_config[1];
+		cachep.assoc         = XML->sys.L3[ithCache].cache_config[2];
+		cachep.nbanks        = XML->sys.L3[ithCache].cache_config[3];
+		cachep.throughput    = XML->sys.L3[ithCache].cache_config[4]/cachep.clockRate;
+		cachep.latency       = XML->sys.L3[ithCache].cache_config[5]/cachep.clockRate;
 		cachep.missb_size    = XML->sys.L3[ithCache].buffer_sizes[0];
 		cachep.fu_size       = XML->sys.L3[ithCache].buffer_sizes[1];
 		cachep.prefetchb_size= XML->sys.L3[ithCache].buffer_sizes[2];

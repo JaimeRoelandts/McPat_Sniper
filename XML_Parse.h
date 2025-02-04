@@ -32,49 +32,46 @@
 #ifndef XML_PARSE_H_
 #define XML_PARSE_H_
 
-
-//#ifdef WIN32
-//#define _CRT_SECURE_NO_DEPRECATE
-//#endif
-
-#include <stdio.h>
+#include <string>
+#include <vector>
 #include "xmlParser.h"
-#include <string.h>
-#include <iostream>
-using namespace std;
 
-/*
-void myfree(char *t); // {free(t);}
-ToXMLStringTool tx,tx2;
-*/
 //all subnodes at the level of system.core(0-n)
 //cache_policy is added into cache property arrays;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
 
-typedef struct{
+struct PredictorSystemCore{
 	int prediction_width;
-	char prediction_scheme[20];
+	std::string prediction_scheme;
 	int predictor_size;
 	int predictor_entries;
-	int local_predictor_size[20];
+	std::vector<int> local_predictor_size;
 	int local_predictor_entries;
 	int global_predictor_entries;
 	int global_predictor_bits;
 	int chooser_predictor_entries;
 	int chooser_predictor_bits;
 	double predictor_accesses;
-} predictor_systemcore;
-typedef struct{
+
+	//constructor
+	PredictorSystemCore();
+};
+
+struct ItlbSystemCore{
 	int number_entries;
 	int cache_policy;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
 	double total_hits;
 	double total_accesses;
 	double total_misses;
 	double conflicts;
-} itlb_systemcore;
-typedef struct{
+
+	//constructor
+	ItlbSystemCore();
+};
+
+struct IcacheSystemCore{
 	//params
-	double icache_config[20];
-	int buffer_sizes[20];
+	std::vector<double> icache_config;
+	std::vector<int> buffer_sizes;
 	int cache_policy;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
 	//stats
 	double total_accesses;
@@ -91,8 +88,12 @@ typedef struct{
 	double prefetch_buffer_reads;
 	double prefetch_buffer_hits;
 	double conflicts;
-} icache_systemcore;
-typedef struct{
+
+	//constructor
+	IcacheSystemCore();
+};
+
+struct DtlbSystemCore{
 	//params
 	int number_entries;
 	int cache_policy;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
@@ -107,11 +108,14 @@ typedef struct{
 	double total_hits;
 	double total_misses;
 	double conflicts;
-} dtlb_systemcore;
-typedef struct{
+
+	DtlbSystemCore();
+};
+
+struct DcacheSystemCore{
 	//params
-	double dcache_config[20];
-	int buffer_sizes[20];
+	std::vector<double> dcache_config;
+	std::vector<int> buffer_sizes;
 	int cache_policy;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
 	//stats
 	double total_accesses;
@@ -134,10 +138,14 @@ typedef struct{
 	double wbb_writes;
 	double wbb_reads;
 	double conflicts;
-} dcache_systemcore;
-typedef struct{
+
+	//constructor
+	DcacheSystemCore();
+};
+
+struct BtbSystemCore{
 	//params
-	int BTB_config[20];
+	std::vector<int> BTB_config;
 	//stats
 	double total_accesses;
 	double read_accesses;
@@ -149,8 +157,11 @@ typedef struct{
 	double read_misses;
 	double write_misses;
 	double replacements;
-} BTB_systemcore;
-typedef struct{
+
+	//constructor
+	BtbSystemCore();
+};
+struct SystemCore{
 	//all params at the level of system.core(0-n)
 	int clock_rate;
 	bool opt_local;
@@ -170,10 +181,10 @@ typedef struct{
 	int issue_width;
 	int peak_issue_width;
 	int commit_width;
-	int pipelines_per_core[20];
-	int pipeline_depth[20];
-	char FPU[20];
-	char divider_multiplier[20];
+	std::vector<int> pipelines_per_core;
+	std::vector<int> pipeline_depth;
+	std::string FPU;
+	std::string divider_multiplier;
 	int ALU_per_core;
 	double FPU_per_core;
 	int MUL_per_core;
@@ -190,11 +201,11 @@ typedef struct{
 	int rename_scheme;
 	int checkpoint_depth;
 	int register_windows_size;
-	char LSU_order[20];
+	std::string LSU_order;
 	int store_buffer_size;
 	int load_buffer_size;
 	int memory_ports;
-	char Dcache_dual_pump[20];
+	std::string Dcache_dual_pump;
 	int RAS_size;
 	int fp_issue_width;
 	int prediction_width;
@@ -283,24 +294,26 @@ typedef struct{
 	double power_gating_vcc;
 
 	//all subnodes at the level of system.core(0-n)
-	predictor_systemcore predictor;
-	itlb_systemcore itlb;
-	icache_systemcore icache;
-	dtlb_systemcore dtlb;
-	dcache_systemcore dcache;
-	BTB_systemcore BTB;
+	PredictorSystemCore predictor;
+	ItlbSystemCore itlb;
+	IcacheSystemCore icache;
+	DtlbSystemCore dtlb;
+	DcacheSystemCore dcache;
+	BtbSystemCore BTB;
 
-} system_core;
-typedef struct{
+	//constructor
+	SystemCore();
+};
+struct SystemCacheDirectory{
 	//params
 	int Directory_type;
-	double Dir_config[20];
-	int buffer_sizes[20];
+	std::vector<double> Dir_config;
+	std::vector<int> buffer_sizes;
 	int clockrate;
-	int ports[20];
+	std::vector<int> ports;
 	int device_type;
 	int cache_policy;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
-	char threeD_stack[20];
+	std::string threeD_stack;
 	double vdd;
 	double power_gating_vcc;
 	//stats
@@ -311,37 +324,20 @@ typedef struct{
 	double write_misses;
 	double conflicts;
 	double duty_cycle;
-} system_L1Directory;
-typedef struct{
+
+	//constructor
+	SystemCacheDirectory();
+};
+
+struct SystemCache{
 	//params
-	int Directory_type;
-	double Dir_config[20];
-	int buffer_sizes[20];
+	std::vector<double> cache_config;
 	int clockrate;
-	int ports[20];
+	std::vector<int> ports;
 	int device_type;
 	int cache_policy;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
-	char threeD_stack[20];
-	double vdd;
-	double power_gating_vcc;
-	//stats
-	double total_accesses;
-	double read_accesses;
-	double write_accesses;
-	double read_misses;
-	double write_misses;
-	double conflicts;
-	double duty_cycle;
-} system_L2Directory;
-typedef struct{
-	//params
-	double L2_config[20];
-	int clockrate;
-	int ports[20];
-	int device_type;
-	int cache_policy;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
-	char threeD_stack[20];
-	int buffer_sizes[20];
+	std::string threeD_stack;
+	std::vector<int> buffer_sizes;
 	double vdd;
 	double power_gating_vcc;
 	//stats
@@ -375,66 +371,30 @@ typedef struct{
 	double homenode_read_misses;
 	double homenode_write_misses;
 	double dir_duty_cycle;
-} system_L2;
-typedef struct{
-	//params
-	double L3_config[20];
-	int clockrate;
-	int ports[20];
-	int device_type;
-	int cache_policy;//0 no write or write-though with non-write allocate;1 write-back with write-allocate
-	char threeD_stack[20];
-	int buffer_sizes[20];
-	double vdd;
-	double power_gating_vcc;
-	//stats
-	double total_accesses;
-	double read_accesses;
-	double write_accesses;
-	double total_hits;
-	double total_misses;
-	double read_hits;
-	double write_hits;
-	double read_misses;
-	double write_misses;
-	double replacements;
-	double write_backs;
-	double miss_buffer_accesses;
-	double fill_buffer_accesses;
-	double prefetch_buffer_accesses;
-	double prefetch_buffer_writes;
-	double prefetch_buffer_reads;
-	double prefetch_buffer_hits;
-	double wbb_writes;
-	double wbb_reads;
-	double conflicts;
-	double duty_cycle;
 
-	bool   merged_dir;
-	double homenode_read_accesses;
-	double homenode_write_accesses;
-	double homenode_read_hits;
-	double homenode_write_hits;
-	double homenode_read_misses;
-	double homenode_write_misses;
-	double dir_duty_cycle;
-} system_L3;
-typedef struct{
+	//constructor
+	SystemCache();
+};
+
+struct Xbar0SystemNoC{
 	//params
 	int number_of_inputs_of_crossbars;
 	int number_of_outputs_of_crossbars;
 	int flit_bits;
 	int input_buffer_entries_per_port;
-	int ports_of_input_buffer[20];
+	std::vector<int> ports_of_input_buffer;
 	//stats
 	double crossbar_accesses;
-} xbar0_systemNoC;
-typedef struct{
+
+	//constructor
+	Xbar0SystemNoC();
+};
+struct SystemNoC{
 	//params
 	int clockrate;
 	bool type;
 	bool has_global_link;
-	char topology[20];
+	std::string topology;
 	int horizontal_nodes;
 	int vertical_nodes;
 	int link_throughput;
@@ -444,12 +404,12 @@ typedef struct{
 	int virtual_channel_per_port;
 	int flit_bits;
 	int input_buffer_entries_per_vc;
-	int ports_of_input_buffer[20];
+	std::vector<int> ports_of_input_buffer;
 	int dual_pump;
 	int number_of_crossbars;
-	char crossbar_type[20];
-	char crosspoint_type[20];
-	xbar0_systemNoC xbar0;
+	std::string crossbar_type;
+	std::string crosspoint_type;
+	Xbar0SystemNoC xbar0;
 	int arbiter_type;
 	double chip_coverage;
 	double vdd;
@@ -458,8 +418,11 @@ typedef struct{
 	double total_accesses;
 	double duty_cycle;
 	double route_over_perc;
-} system_NoC;
-typedef struct{
+
+	//constructor
+	SystemNoC();
+};
+struct SystemMem{
 	//params
 	int mem_tech_node;
 	int device_clock;
@@ -468,7 +431,7 @@ typedef struct{
 	int capacity_per_channel;
 	int number_ranks;
 	int num_banks_of_DRAM_chip;
-	int Block_width_of_DRAM_chip;
+	int block_width_of_DRAM_chip;
 	int output_width_of_DRAM_chip;
 	int page_size_of_DRAM_chip;
 	int burstlength_of_DRAM_chip;
@@ -476,10 +439,13 @@ typedef struct{
 	double memory_accesses;
 	double memory_reads;
 	double memory_writes;
-} system_mem;
-typedef struct{
+
+	//constructor
+	SystemMem();
+};
+struct SystemMemController{
 	//params
-    //Common Param for mc and fc
+	//Common Param for mc and fc
 	double peak_transfer_rate;
 	int number_mcs;
 	bool withPHY;
@@ -492,14 +458,14 @@ typedef struct{
 
 	//McParam
 	int mc_clock;
-    int llc_line_length;
+	int llc_line_length;
 	int memory_channels_per_mc;
 	int number_ranks;
 	int req_window_size_per_channel;
-	int IO_buffer_size_per_channel;
+	int io_buffer_size_per_channel;
 	int databus_width;
 	int addressbus_width;
-	bool LVDS;
+	bool lvds;
 	double vdd;
 	double power_gating_vcc;
 
@@ -507,11 +473,14 @@ typedef struct{
 	double memory_accesses;
 	double memory_reads;
 	double memory_writes;
-} system_mc;
 
-typedef struct{
+	//constructor
+	SystemMemController();
+};
+
+struct SystemNiu{
 	//params
-    int clockrate;
+	int clockrate;
 	int number_units;
 	int type;
 	double vdd;
@@ -519,11 +488,14 @@ typedef struct{
 	//stats
 	double duty_cycle;
 	double total_load_perc;
-} system_niu;
 
-typedef struct{
+	//constructor
+	SystemNiu();
+};
+
+struct SystemPcie{
 	//params
-    int clockrate;
+	int clockrate;
 	int number_units;
 	int num_channels;
 	int type;
@@ -533,9 +505,12 @@ typedef struct{
 	//stats
 	double duty_cycle;
 	double total_load_perc;
-} system_pcie;
 
-typedef struct{
+	//constructor
+	SystemPcie();
+};
+
+struct RootSystem{
 	//All number_of_* at the level of 'system' Ying 03/21/2009
 	int number_of_cores;
 	int number_of_L1Directories;
@@ -545,8 +520,8 @@ typedef struct{
 	int number_of_L3s;
 	int number_of_NoCs;
 	int number_of_dir_levels;
-    int domain_size;
-    int first_level_dir;
+	int domain_size;
+	int first_level_dir;
 	// All params at the level of 'system'
 	int homogeneous_cores;
 	int homogeneous_L1Directories;
@@ -578,30 +553,33 @@ typedef struct{
 	int virtual_address_width;
 	int physical_address_width;
 	int virtual_memory_page_size;
-    double total_cycles;
-    double vdd;
-    double power_gating_vcc;
+	double total_cycles;
+	double vdd;
+	double power_gating_vcc;
 	//system.core(0-n):3rd level
-	system_core core[64];
-	system_L1Directory L1Directory[64];
-	system_L2Directory L2Directory[64];
-	system_L2 L2[64];
-	system_L3 L3[64];
-    system_NoC NoC[64];
-    system_mem mem;
-	system_mc mc;
-	system_mc flashc;
-	system_niu niu;
-	system_pcie pcie;
-} root_system;
+	std::vector<SystemCore> core;
+	std::vector<SystemCacheDirectory> L1Directory;
+	std::vector<SystemCacheDirectory> L2Directory;
+	std::vector<SystemCache> L2;
+	std::vector<SystemCache> L3;
+	std::vector<SystemNoC> NoC;
+	SystemMem mem;
+	SystemMemController mc;
+	SystemMemController flashc;
+	SystemNiu niu;
+	SystemPcie pcie;
+
+	//constructor
+	RootSystem();
+};
 
 class ParseXML
 {
+private:
+	template<typename T> void split_string(XMLCSTR, std::vector<T>&);
 public:
 	void parse(char* filepath);
-    void initialize();
-public:
-	root_system sys;
+	RootSystem sys;
 };
 
 
