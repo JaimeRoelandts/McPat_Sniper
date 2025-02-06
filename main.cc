@@ -28,9 +28,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.”
  *
  ***************************************************************************/
-#include "io.h"
 #include <iostream>
-#include "xmlParser.h"
 #include "XML_Parse.h"
 #include "processor.h"
 #include "globalvar.h"
@@ -84,8 +82,7 @@ int main(int argc,char *argv[])
 		<< " of " << VER_UPDATE << ") is computing the target processor...\n "<<endl;
 
 	//parse XML-based interface
-	ParseXML *p1= new ParseXML();
-	p1->parse(fb);
+	ParseXML *p1= new ParseXML(fb);
 	Processor proc(p1);
 	proc.displayEnergy(2, plevel);
 	delete p1;
