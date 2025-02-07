@@ -279,6 +279,8 @@ void SystemCore::set_xml(const boost::property_tree::ptree& xml_pt){
 			else if (name == "prediction_width") 		prediction_width 		= node.get<int>("<xmlattr>.value");
 			else if (name == "number_of_BTB") 		number_of_BTB 			= node.get<int>("<xmlattr>.value");
 			else if (name == "number_of_BPT") 		number_of_BPT 			= node.get<int>("<xmlattr>.value");
+			else if (name == "vdd") 			vdd 				= node.get<double>("<xmlattr>.value");
+			else if (name == "power_gating_vcc") 		power_gating_vcc 		= node.get<double>("<xmlattr>.value");
             	} else if (param.first == "stat") {
 			if (name == "total_instructions") 		total_instructions 		= node.get<double>("<xmlattr>.value");
 			else if (name == "int_instructions") 		int_instructions 		= node.get<double>("<xmlattr>.value");
@@ -355,8 +357,6 @@ void SystemCore::set_xml(const boost::property_tree::ptree& xml_pt){
 			else if (name == "ALU_cdb_duty_cycle") 		ALU_cdb_duty_cycle 		= node.get<double>("<xmlattr>.value");
 			else if (name == "MUL_cdb_duty_cycle") 		MUL_cdb_duty_cycle 		= node.get<double>("<xmlattr>.value");
 			else if (name == "FPU_cdb_duty_cycle") 		FPU_cdb_duty_cycle 		= node.get<double>("<xmlattr>.value");
-			else if (name == "vdd") 			vdd 				= node.get<double>("<xmlattr>.value");
-			else if (name == "power_gating_vcc") 		power_gating_vcc 		= node.get<double>("<xmlattr>.value");
 		} else if (param.first == "component"){
 			if (id == this_component_name + ".predictor") 	predictor 			= PredictorSystemCore(node);
 			else if (id == this_component_name + ".itlb") 	itlb 				= ItlbSystemCore(node);
@@ -541,7 +541,7 @@ void SystemMem::set_xml(const boost::property_tree::ptree& xml_pt){
 			else if (name == "capacity_per_channel") 	capacity_per_channel 		= node.get<int>("<xmlattr>.value");
 			else if (name == "number_ranks") 		number_ranks 			= node.get<int>("<xmlattr>.value");
 			else if (name == "num_banks_of_DRAM_chip") 	num_banks_of_DRAM_chip 		= node.get<int>("<xmlattr>.value");
-			else if (name == "block_width_of_DRAM_chip") 	block_width_of_DRAM_chip 	= node.get<int>("<xmlattr>.value");
+			else if (name == "Block_width_of_DRAM_chip" || name == "block_width_of_DRAM_chip")block_width_of_DRAM_chip 	= node.get<int>("<xmlattr>.value");
 			else if (name == "output_width_of_DRAM_chip")	output_width_of_DRAM_chip 	= node.get<int>("<xmlattr>.value");
 			else if (name == "page_size_of_DRAM_chip") 	page_size_of_DRAM_chip 		= node.get<int>("<xmlattr>.value");
 			else if (name == "burstlength_of_DRAM_chip") 	burstlength_of_DRAM_chip 	= node.get<int>("<xmlattr>.value");
@@ -566,24 +566,24 @@ void SystemMemController::set_xml(const boost::property_tree::ptree& xml_pt){
 		std::string name  = node.get<std::string>("<xmlattr>.name");
             	if (param.first == "param") {
 			if (name == "peak_transfer_rate") 		peak_transfer_rate 		= node.get<double>("<xmlattr>.value");
-			else if (name == "number_mcs") 			number_mcs 			= node.get<int>("<xmlattr>.value");
+			else if (name == "number_mcs" || name == "number_flashcs")number_mcs 		= node.get<int>("<xmlattr>.value");
 			else if (name == "withPHY") 			withPHY 			= node.get<bool>("<xmlattr>.value");
 			else if (name == "type") 			type 				= node.get<int>("<xmlattr>.value");
-			else if (name == "duty_cycle") 			duty_cycle 			= node.get<double>("<xmlattr>.value");
-			else if (name == "total_load_perc") 		total_load_perc 		= node.get<double>("<xmlattr>.value");
 			else if (name == "mc_clock") 			mc_clock 			= node.get<int>("<xmlattr>.value");
-			else if (name == "llc_line_length") 		llc_line_length 		= node.get<int>("<xmlattr>.value");
+			else if (name == "llc_line_length" || name == "block_size")llc_line_length 		= node.get<int>("<xmlattr>.value");
 			else if (name == "memory_channels_per_mc") 	memory_channels_per_mc 		= node.get<int>("<xmlattr>.value");
 			else if (name == "number_ranks") 		number_ranks 			= node.get<int>("<xmlattr>.value");
 			else if (name == "req_window_size_per_channel")	req_window_size_per_channel 	= node.get<int>("<xmlattr>.value");
-			else if (name == "io_buffer_size_per_channel") 	io_buffer_size_per_channel 	= node.get<int>("<xmlattr>.value");
+			else if (name == "IO_buffer_size_per_channel" || name == "io_buffer_size_per_channel")io_buffer_size_per_channel 	= node.get<int>("<xmlattr>.value");
 			else if (name == "databus_width") 		databus_width 			= node.get<int>("<xmlattr>.value");
 			else if (name == "addressbus_width") 		addressbus_width 		= node.get<int>("<xmlattr>.value");
-			else if (name == "lvds") 			lvds 				= node.get<bool>("<xmlattr>.value");
+			else if (name == "LVDS" || name == "lvds")	lvds 				= node.get<bool>("<xmlattr>.value");
 			else if (name == "vdd") 			vdd 				= node.get<double>("<xmlattr>.value");
 			else if (name == "power_gating_vcc") 		power_gating_vcc 		= node.get<double>("<xmlattr>.value");
 		} else if (param.first == "stat"){
-			if (name == "memory_accesses") 			memory_accesses 		= node.get<double>("<xmlattr>.value");
+			if (name == "duty_cycle") 			duty_cycle 			= node.get<double>("<xmlattr>.value");
+			else if (name == "total_load_perc") 		total_load_perc 		= node.get<double>("<xmlattr>.value");
+			else if (name == "memory_accesses") 		memory_accesses 		= node.get<double>("<xmlattr>.value");
 			else if (name == "memory_reads") 		memory_reads 			= node.get<double>("<xmlattr>.value");
 			else if (name == "memory_writes") 		memory_writes 			= node.get<double>("<xmlattr>.value");
 		} else std::cerr << "Warning, found component with id " << id << ", and name " << name << ". But has not been handled by McPat." << std::endl;
@@ -690,10 +690,12 @@ void RootSystem::set_xml(const boost::property_tree::ptree& xml_pt){
 			else if (name == "virtual_address_width") 	virtual_address_width 		= node.get<int>("<xmlattr>.value");
 			else if (name == "physical_address_width") 	physical_address_width 		= node.get<int>("<xmlattr>.value");
 			else if (name == "virtual_memory_page_size") 	virtual_memory_page_size 	= node.get<int>("<xmlattr>.value");
+			else if (name == "vdd") 			vdd 				= node.get<double>("<xmlattr>.value");
+			else if (name == "power_gating_vcc") 		power_gating_vcc 		= node.get<double>("<xmlattr>.value");
             	} else if (param.first == "stat") {
             	    	if (name == "total_cycles") 			total_cycles 			= node.get<double>("<xmlattr>.value");
-            	    	else if (name == "vdd") 			vdd 				= node.get<double>("<xmlattr>.value");
-            	    	else if (name == "power_gating_vcc") 		power_gating_vcc 		= node.get<double>("<xmlattr>.value");
+            	    	else if (name == "idle_cycles") 		idle_cycles 			= node.get<double>("<xmlattr>.value");
+            	    	else if (name == "busy_cycles") 		busy_cycles 			= node.get<double>("<xmlattr>.value");
 		} else if (param.first == "component"){
 			if (id.find("system.core") != std::string::npos) 				core.emplace_back(node);
 			else if (id.find("system.L1Directory") != std::string::npos) 			L1Directory.emplace_back(node);

@@ -246,6 +246,8 @@ class SystemCore{
 		int prediction_width			= 0;
 		int number_of_BTB			= 0;
 		int number_of_BPT			= 0;
+		double vdd				= 0;
+		double power_gating_vcc			= -1;
 
 		//all stats at the level of system.core(0-n)
 		double total_instructions		= 1;
@@ -325,8 +327,6 @@ class SystemCore{
 		double MUL_cdb_duty_cycle 		= 1;
 		double FPU_cdb_duty_cycle 		= 1;
 
-		double vdd				= 0;
-		double power_gating_vcc			= -1;
 
 		//all subnodes at the level of system.core(0-n)
 		PredictorSystemCore predictor;
@@ -594,6 +594,7 @@ class SystemPcie{
 class RootSystem{
 	public:
 		//All number_of_* at the level of 'system' Ying 03/21/2009
+		//params
 		int number_of_cores			= 1;
 		int number_of_L1Directories		= 1;
 		int number_of_L2Directories		= 1;
@@ -635,9 +636,14 @@ class RootSystem{
 		int virtual_address_width		= 0;
 		int physical_address_width		= 0;
 		int virtual_memory_page_size		= 0;
-		double total_cycles			= 0;
 		double vdd				= 0;
 		double power_gating_vcc			= -1;
+
+		//stat
+		double total_cycles			= 0;
+		double idle_cycles			= 0;
+		double busy_cycles			= 0;
+
 		//system.core(0-n):3rd level
 		std::vector<SystemCore> core;
 		std::vector<SystemCacheDirectory> L1Directory;
