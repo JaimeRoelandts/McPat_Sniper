@@ -1839,7 +1839,6 @@ Core::Core(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip_)
   if (XML->sys.Private_L2)
   {
 	  l2cache = new SharedCache(XML,ithCore, &interface_ip);
-
   }
 
   clockRate = coredynp.clockRate;

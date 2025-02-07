@@ -45,12 +45,12 @@ enum FU_type {
 };
 
 enum Renaming_type {
-    RAMbased,
+	RAMbased,
 	CAMbased
 };
 
 enum Scheduler_type {
-    PhysicalRegFile,
+	PhysicalRegFile,
 	ReservationStation
 };
 

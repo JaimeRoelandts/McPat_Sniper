@@ -28,17 +28,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.”
  *
  ***************************************************************************/
-#include <string.h>
 #include <iostream>
-#include <stdio.h>
-#include <algorithm>
-#include <string.h>
 #include <cmath>
-#include <assert.h>
-#include <fstream>
-#include "parameter.h"
-#include "array.h"
-#include "const.h"
 #include "basic_circuit.h"
 #include "XML_Parse.h"
 #include "processor.h"
@@ -163,6 +154,7 @@ Processor::Processor(ParseXML *XML_interface)
 	  }
   }
 
+
   if (numL3 >0)
 	  for (i = 0;i < numL3; i++)
 	  {
@@ -203,7 +195,7 @@ Processor::Processor(ParseXML *XML_interface)
 			  set_pppm(pppm_t,l1dirarray[i]->cachep.clockRate*procdynp.numL1Dir, procdynp.numL1Dir,procdynp.numL1Dir,procdynp.numL1Dir);
 			  l1dir.power = l1dir.power + l1dirarray[i]->power*pppm_t;
 			  set_pppm(pppm_t,1/l1dirarray[i]->cachep.executionTime, procdynp.numL1Dir,procdynp.numL1Dir,procdynp.numL1Dir);
-              l1dir.rt_power = l1dir.rt_power + l1dirarray[i]->rt_power*pppm_t;
+			  l1dir.rt_power = l1dir.rt_power + l1dirarray[i]->rt_power*pppm_t;
 			  area.set_area(area.get_area() + l1dir.area.get_area());//placement and routing overhead is 10%, l1dir scales worse than cache 40% is accumulated from 90 to 22nm
 			  power = power  + l1dir.power;
 			  rt_power = rt_power  + l1dir.rt_power;
