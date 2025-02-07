@@ -12,7 +12,7 @@ LIBS =
 INCS = -lm
 
 ifeq ($(TAG),dbg)
-  DBG = -Wall 
+  DBG = -Wall
   OPT = -ggdb -g -O0 -DNTHREADS=1 -Icacti
 else
   DBG = 
@@ -22,8 +22,8 @@ endif
 
 #CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
 CXXFLAGS = -Wno-unknown-pragmas $(DBG) $(OPT) 
-CXX = g++ -m32
-CC  = gcc -m32
+CXX = g++
+CC  = gcc
 
 VPATH = cacti
 
@@ -59,7 +59,6 @@ SRCS  = \
   technology.cc \
   uca.cc \
   wire.cc \
-  xmlParser.cc \
   powergating.cc
 
 OBJS = $(patsubst %.cc,obj_$(TAG)/%.o,$(SRCS))
