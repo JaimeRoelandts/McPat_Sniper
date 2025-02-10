@@ -74,7 +74,7 @@ void init_tech_params(double technology, bool is_tag)
   double gmp_to_gmn_multiplier_periph_global = 0;
 
   double curr_Wmemcella_dram, curr_Wmemcellpmos_dram, curr_Wmemcellnmos_dram,
-         curr_area_cell_dram, curr_asp_ratio_cell_dram, curr_Wmemcella_sram,
+         curr_area_cell_dram = 0, curr_asp_ratio_cell_dram = 1, curr_Wmemcella_sram, // curr_area_cell_dram, curr_asp_ratio_cell_dram are sometimes not initialised, yet used in sqrt, so set some default value. (1 is to avoid division by 0.)
          curr_Wmemcellpmos_sram, curr_Wmemcellnmos_sram, curr_area_cell_sram,
          curr_asp_ratio_cell_sram, curr_I_off_dram_cell_worst_case_length_temp;
   double curr_Wmemcella_cam, curr_Wmemcellpmos_cam, curr_Wmemcellnmos_cam, curr_area_cell_cam,//Sheng: CAM data
