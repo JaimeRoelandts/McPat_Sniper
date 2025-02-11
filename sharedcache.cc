@@ -1045,6 +1045,14 @@ void SharedCache::set_cache_param()
 {
 	if (cacheL==L2)
 	{
+		if(XML->sys.L2[ithCache].cache_config.size() < 6){
+			std::cerr << "The cache_config of L2 cache " << ithCache << " should contain 6 elements but there are only " << XML->sys.L2[ithCache].cache_config.size() << " elements." << std::endl;
+			std::exit(1);
+		}
+		if(XML->sys.L2[ithCache].buffer_sizes.size() < 4){
+			std::cerr << "The buffer_sizes of L2 cache " << ithCache << " should contain 4 elements but there are only " << XML->sys.L2[ithCache].buffer_sizes.size() << " elements." << std::endl;
+			std::exit(1);
+		}
 		cachep.name = "L2";
 		cachep.clockRate       = XML->sys.L2[ithCache].clockrate;
 		cachep.clockRate       *= 1e6;
@@ -1152,6 +1160,14 @@ void SharedCache::set_cache_param()
 	}
 	else if (cacheL==L1Directory)
 		{
+			if(XML->sys.L1Directory[ithCache].Dir_config.size() < 6){
+				std::cerr << "The Dir_config (L1) config of cache " << ithCache << " should contain 6 elements but there are only " << XML->sys.L1Directory[ithCache].Dir_config.size() << " elements." << std::endl;
+		  		std::exit(1);
+			}
+			if(XML->sys.L1Directory[ithCache].buffer_sizes.size() < 4){
+				std::cerr << "The buffer_sizes (L1) config of cache " << ithCache << " should contain 4 elements but there are only " << XML->sys.L1Directory[ithCache].buffer_sizes.size() << " elements." << std::endl;
+		  		std::exit(1);
+			}
 			cachep.name = "First Level Directory";
 			cachep.dir_ty = (enum Dir_type) XML->sys.L1Directory[ithCache].Directory_type;
 			cachep.clockRate       = XML->sys.L1Directory[ithCache].clockrate;
@@ -1191,6 +1207,14 @@ void SharedCache::set_cache_param()
 		}
 	else if (cacheL==L2Directory)
 		{
+			if(XML->sys.L1Directory[ithCache].Dir_config.size() < 6){
+				std::cerr << "The Dir_config (L2) config of cache " << ithCache << " should contain 6 elements but there are only " << XML->sys.L1Directory[ithCache].Dir_config.size() << " elements." << std::endl;
+		  		std::exit(1);
+			}
+			if(XML->sys.L1Directory[ithCache].buffer_sizes.size() < 4){
+				std::cerr << "The buffer_sizes (L2) config of cache " << ithCache << " should contain 4 elements but there are only " << XML->sys.L1Directory[ithCache].buffer_sizes.size() << " elements." << std::endl;
+		  		std::exit(1);
+			}
 			cachep.name = "Second Level Directory";
 			cachep.dir_ty = (enum Dir_type) XML->sys.L2Directory[ithCache].Directory_type;
 			cachep.clockRate       = XML->sys.L2Directory[ithCache].clockrate;

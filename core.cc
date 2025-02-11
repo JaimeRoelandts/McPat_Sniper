@@ -60,6 +60,14 @@ InstFetchU::InstFetchU(ParseXML* XML_interface, int ithCore_, InputParameter* in
 
 	  clockRate = coredynp.clockRate;
 	  executionTime = coredynp.executionTime;
+	  if(XML->sys.core[ithCore].icache.icache_config.size() < 8){
+		  std::cerr << "The icache config of core " << ithCore << " should contain 8 elements but there are only " << XML->sys.core[ithCore].icache.icache_config.size() << " elements." << std::endl;
+		  std::exit(1);
+	  }
+	  if(XML->sys.core[ithCore].icache.buffer_sizes.size() < 3){
+		  std::cerr << "The icache config of core " << ithCore << " should contain 3 elements but there are only " << XML->sys.core[ithCore].icache.buffer_sizes.size() << " elements." << std::endl;
+		  std::exit(1);
+	  }
 	  cache_p = (Cache_policy)XML->sys.core[ithCore].icache.icache_config[7];
 	  //Assuming all L1 caches are virtually idxed physically tagged.
 	  //cache
@@ -235,6 +243,11 @@ InstFetchU::InstFetchU(ParseXML* XML_interface, int ithCore_, InputParameter* in
     	   * 4)  when EXEU find out wrong target has been provided from BTB.
     	   *
     	   */
+	
+	  if(XML->sys.core[ithCore].BTB.BTB_config.size() < 6){
+		  std::cerr << "BTB config of core " << ithCore << " should contain 6 elements, but there are only " << XML->sys.core[ithCore].BTB.BTB_config.size() << " elements." << std::endl;
+		  std::exit(1);
+	  }
     	  size                             = XML->sys.core[ithCore].BTB.BTB_config[0];
     	  line                             = XML->sys.core[ithCore].BTB.BTB_config[1];
     	  assoc                            = XML->sys.core[ithCore].BTB.BTB_config[2];
@@ -318,6 +331,10 @@ BranchPredictor::BranchPredictor(ParseXML* XML_interface, int ithCore_, InputPar
 	 * TODO:Data Width need to be computed more precisely	 *
 	 */
 	if (!exist) return;
+	if(XML->sys.core[ithCore].predictor.local_predictor_size.size() < 2) {
+		std::cerr << "The local predictor of core " << ithCore << "should contain 2 elements, there are now " << XML->sys.core[ithCore].predictor.local_predictor_size.size() << " elements." << std::endl;
+		std::exit(1);
+	}
 	int  tag, data;
 
 	clockRate = coredynp.clockRate;
@@ -361,7 +378,7 @@ BranchPredictor::BranchPredictor(ParseXML* XML_interface, int ithCore_, InputPar
 	globalBPT->area.set_area(globalBPT->area.get_area()+ globalBPT->local_result.area);
 	area.set_area(area.get_area()+ globalBPT->local_result.area);
 
-	//Local BPT (Level 1)
+	//Local BPT (Level 1)	
 	data							 = int(ceil(XML->sys.core[ithCore].predictor.local_predictor_size[0]/8.0));
 	interface_ip.line_sz             = data;
 	interface_ip.cache_sz            = data*XML->sys.core[ithCore].predictor.local_predictor_entries;
@@ -724,6 +741,14 @@ LoadStoreU::LoadStoreU(ParseXML* XML_interface, int ithCore_, InputParameter* in
 
 	  clockRate = coredynp.clockRate;
 	  executionTime = coredynp.executionTime;
+	  if(XML->sys.core[ithCore].dcache.dcache_config.size() < 8){
+		  std::cerr << "The dcache config of core " << ithCore << " should contain 8 elements but there are only " << XML->sys.core[ithCore].dcache.dcache_config.size() << " elements." << std::endl;
+		  std::exit(1);
+	  }
+	  if(XML->sys.core[ithCore].dcache.buffer_sizes.size() < 4){
+		  std::cerr << "The dcache config of core " << ithCore << " should contain 4 elements but there are only " << XML->sys.core[ithCore].dcache.buffer_sizes.size() << " elements." << std::endl;
+		  std::exit(1);
+	  }
 	  cache_p = (Cache_policy)XML->sys.core[ithCore].dcache.dcache_config[7];
 
 	  interface_ip.num_search_ports    = XML->sys.core[ithCore].memory_ports;
@@ -4278,6 +4303,16 @@ Core ::~Core(){
 
 void Core::set_core_param()
 {
+	//check first for the size conditions
+	  if(XML->sys.core[ithCore].pipelines_per_core.size() < 2){
+		  std::cerr << "The pipeline_per_core config of core " << ithCore << " should contain 2 elements but there are only " << XML->sys.core[ithCore].pipelines_per_core.size() << " elements." << std::endl;
+		  std::exit(1);
+	  }
+	  if(XML->sys.core[ithCore].pipeline_depth.size() < 2){
+		  std::cerr << "The pipeline_depth config of core " << ithCore << " should contain 2 elements but there are only " << XML->sys.core[ithCore].pipeline_depth.size() << " elements." << std::endl;
+		  std::exit(1);
+	  }
+
 	coredynp.opt_local = XML->sys.core[ithCore].opt_local;
 	coredynp.x86 = XML->sys.core[ithCore].x86;
 	coredynp.Embedded = XML->sys.Embedded;

@@ -433,7 +433,7 @@ class Xbar0SystemNoC{
 		int number_of_outputs_of_crossbars	= 1;
 		int flit_bits				= 1;
 		int input_buffer_entries_per_port	= 1;
-		std::vector<int> ports_of_input_buffer;
+		std::vector<int> ports_of_input_buffer; //Never used?
 
 		//stats
 		double crossbar_accesses		= 1;
@@ -461,7 +461,7 @@ class SystemNoC{
 		int virtual_channel_per_port		= 1;
 		int flit_bits				= 1;
 		int input_buffer_entries_per_vc		= 1;
-		std::vector<int> ports_of_input_buffer;
+		std::vector<int> ports_of_input_buffer; //Never used?
 		int dual_pump				= 0;
 		int number_of_crossbars			= 1;
 		std::string crossbar_type		= "default";
