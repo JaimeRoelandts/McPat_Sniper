@@ -37,6 +37,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <iterator>
+#include <sstream>
 #include <string>
 #include <iostream>
 #include "XML_Parse.h"
@@ -641,6 +642,7 @@ void SystemPcie::set_xml(const boost::property_tree::ptree& xml_pt){
 
 RootSystem::RootSystem(const boost::property_tree::ptree& xml_pt){
 	set_xml(xml_pt);
+	check_consitency();
 }
 
 void RootSystem::set_xml(const boost::property_tree::ptree& xml_pt){
@@ -711,6 +713,41 @@ void RootSystem::set_xml(const boost::property_tree::ptree& xml_pt){
 		}
 		else std::cerr << "Warning, found component with id " << id << ", and name " << name << ". But has not been handled by McPat." << std::endl;
         }
+}
+
+void RootSystem::check_consitency(){
+	bool issues_found = false;
+	std::stringstream issues;
+	issues << "Inconsistency has been found in the XML input:" << std::endl;
+	if (! ((this->homogeneous_cores && this->core.size() >= 1) || this->number_of_cores <= this->core.size())) {
+		issues_found = true;
+		issues << "The number of cores in the system (" << this->number_of_cores << ") does not match the number of configurations seen (" << this->core.size() << ")" << std::endl;
+	}
+	if (! ((this->homogeneous_L1Directories && this->L1Directory.size() >= 1) || this->number_of_L1Directories <= this->L1Directory.size())) {
+		issues_found = true;
+		issues << "The number of L1Directories in the system (" << this->number_of_L1Directories << ") does not match the number of configurations seen (" << this->L1Directory.size() << ")" << std::endl;
+	}
+	if (! ((this->homogeneous_L2Directories && this->L2Directory.size() >= 1) || this->number_of_L2Directories <= this->L2Directory.size())) {
+		issues_found = true;
+		issues << "The number of L2Directories in the system (" << this->number_of_L2Directories << ") does not match the number of configurations seen (" << this->L2Directory.size() << ")" << std::endl;
+	}
+	if (! ((this->homogeneous_L2s && this->L2.size() >= 1) || this->number_of_L2s <= this->L2.size())) {
+		issues_found = true;
+		issues << "The number of L2s in the system (" << this->number_of_L2s << ") does not match the number of configurations seen (" << this->L2.size() << ")" << std::endl;
+	}
+	if (! ((this->homogeneous_L3s && this->L3.size() >= 1) || this->number_of_L3s <= this->L3.size())) {
+		issues_found = true;
+		issues << "The number of L3s in the system (" << this->number_of_L3s << ") does not match the number of configurations seen (" << this->L3.size() << ")" << std::endl;
+	}
+	if (! ((this->homogeneous_NoCs && this->NoC.size() >= 1) || this->number_of_NoCs <= this->NoC.size())) {
+		issues_found = true;
+		issues << "The number of NoCs in the system (" << this->number_of_NoCs << ") does not match the number of configurations seen (" << this->NoC.size() << ")" << std::endl;
+	}
+
+	if(issues_found){
+		std::cerr << issues.str();
+		std::exit(1);
+	}
 }
 
 ParseXML::ParseXML(std::string xml_path){

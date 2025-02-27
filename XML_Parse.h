@@ -433,7 +433,7 @@ class Xbar0SystemNoC{
 		int number_of_outputs_of_crossbars	= 1;
 		int flit_bits				= 1;
 		int input_buffer_entries_per_port	= 1;
-		std::vector<int> ports_of_input_buffer; //Never used?
+		std::vector<int> ports_of_input_buffer; //Never used
 
 		//stats
 		double crossbar_accesses		= 1;
@@ -461,7 +461,7 @@ class SystemNoC{
 		int virtual_channel_per_port		= 1;
 		int flit_bits				= 1;
 		int input_buffer_entries_per_vc		= 1;
-		std::vector<int> ports_of_input_buffer; //Never used?
+		std::vector<int> ports_of_input_buffer; //Never used
 		int dual_pump				= 0;
 		int number_of_crossbars			= 1;
 		std::string crossbar_type		= "default";
@@ -620,7 +620,7 @@ class RootSystem{
 		int L3_property				= 0;
 		int homogeneous_L3s			= 1;
 		int homogeneous_NoCs			= 1;
-		int homogeneous_ccs			= 1;
+		int homogeneous_ccs			= 1; //Never used
 		int Max_area_deviation			= 1;
 		int Max_power_deviation			= 1;
 		int device_type				= 1;
@@ -661,6 +661,7 @@ class RootSystem{
 		RootSystem() = default;
 		RootSystem(const boost::property_tree::ptree& xml_pt);
 		void set_xml(const boost::property_tree::ptree& xml_pt);
+		void check_consitency();
 };
 
 class ParseXML{
