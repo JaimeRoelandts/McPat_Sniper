@@ -124,115 +124,115 @@ class InputParameter
     bool error_checking();  // return false if the input parameters are problematic
     void display_ip();
 
-    unsigned int cache_sz;  // in bytes
-    unsigned int line_sz;
-    unsigned int assoc;
-    unsigned int nbanks;
-    unsigned int out_w;// == nr_bits_out
-    bool     specific_tag;
-    unsigned int tag_w;
-    unsigned int access_mode;
-    unsigned int obj_func_dyn_energy;
-    unsigned int obj_func_dyn_power;
-    unsigned int obj_func_leak_power;
-    unsigned int obj_func_cycle_t;
+    unsigned int cache_sz			= 0;  // in bytes
+    unsigned int line_sz			= 0;
+    unsigned int assoc				= 0;
+    unsigned int nbanks				= 0;
+    unsigned int out_w				= 0;// == nr_bits_out
+    bool     specific_tag			= 0;
+    unsigned int tag_w				= 0;
+    unsigned int access_mode			= 0;
+    unsigned int obj_func_dyn_energy		= 0;
+    unsigned int obj_func_dyn_power		= 0;
+    unsigned int obj_func_leak_power		= 0;
+    unsigned int obj_func_cycle_t		= 0;
 
-    double   F_sz_nm;          // feature size in nm
-    double   F_sz_um;          // feature size in um
-    bool     specific_hp_vdd;     // whether to have user defined vdd that is different from ITRS
-    double   hp_Vdd;			   // user specified vdd
-    bool     specific_lstp_vdd;     // whether to have user defined vdd that is different from ITRS
-    double   lstp_Vdd;
-    bool     specific_lop_vdd;     // whether to have user defined vdd that is different from ITRS
-    double   lop_Vdd;
-    bool     specific_vcc_min;     // whether to have user defined vcc_min for power-gating that is different from the value constrained by technology for maintaining states
-    double   user_defined_vcc_min;
-    bool     user_defined_vcc_underflow; //flag to indicate when user defined vcc is too low for the circuit to retain state
-    unsigned int num_rw_ports;
-    unsigned int num_rd_ports;
-    unsigned int num_wr_ports;
-    unsigned int num_se_rd_ports;  // number of single ended read ports
-    unsigned int num_search_ports;  // number of search ports for CAM
-    bool     is_main_mem;
-    bool     is_cache;
-    bool     pure_ram;
-    bool     pure_cam;
-    bool     rpters_in_htree;  // if there are repeaters in htree segment
-    unsigned int ver_htree_wires_over_array;
-    unsigned int broadcast_addr_din_over_ver_htrees;
-    unsigned int temp;
+    double   F_sz_nm				= 0;          // feature size in nm
+    double   F_sz_um				= 0;          // feature size in um
+    bool     specific_hp_vdd			= 0;     // whether to have user defined vdd that is different from ITRS
+    double   hp_Vdd				= 0;			   // user specified vdd
+    bool     specific_lstp_vdd			= 0;     // whether to have user defined vdd that is different from ITRS
+    double   lstp_Vdd				= 0;
+    bool     specific_lop_vdd			= 0;     // whether to have user defined vdd that is different from ITRS
+    double   lop_Vdd				= 0;
+    bool     specific_vcc_min			= 0;     // whether to have user defined vcc_min for power-gating that is different from the value constrained by technology for maintaining states
+    double   user_defined_vcc_min		= 0;
+    bool     user_defined_vcc_underflow		= 0; //flag to indicate when user defined vcc is too low for the circuit to retain state
+    unsigned int num_rw_ports			= 0;
+    unsigned int num_rd_ports			= 0;
+    unsigned int num_wr_ports			= 0;
+    unsigned int num_se_rd_ports		= 0;  // number of single ended read ports
+    unsigned int num_search_ports		= 0;  // number of search ports for CAM
+    bool     is_main_mem			= 0;
+    bool     is_cache				= 0;
+    bool     pure_ram				= 0;
+    bool     pure_cam				= 0;
+    bool     rpters_in_htree			= 0;  // if there are repeaters in htree segment
+    unsigned int ver_htree_wires_over_array	= 0;
+    unsigned int broadcast_addr_din_over_ver_htrees= 0;
+    unsigned int temp				= 0;
 
-    unsigned int ram_cell_tech_type;
-    unsigned int peri_global_tech_type;
-    unsigned int data_arr_ram_cell_tech_type;
-    unsigned int data_arr_peri_global_tech_type;
-    unsigned int tag_arr_ram_cell_tech_type;
-    unsigned int tag_arr_peri_global_tech_type;
+    unsigned int ram_cell_tech_type		= 0;
+    unsigned int peri_global_tech_type		= 0;
+    unsigned int data_arr_ram_cell_tech_type	= 0;
+    unsigned int data_arr_peri_global_tech_type	= 0;
+    unsigned int tag_arr_ram_cell_tech_type	= 0;
+    unsigned int tag_arr_peri_global_tech_type	= 0;
 
-    unsigned int burst_len;
-    unsigned int int_prefetch_w;
-    unsigned int page_sz_bits;
+    unsigned int burst_len			= 0;
+    unsigned int int_prefetch_w			= 0;
+    unsigned int page_sz_bits			= 0;
 
-    unsigned int ic_proj_type;      // interconnect_projection_type
-    unsigned int wire_is_mat_type;  // wire_inside_mat_type
-    unsigned int wire_os_mat_type; // wire_outside_mat_type
-    enum Wire_type wt;
-    int force_wiretype;
-    bool print_input_args;
-    unsigned int nuca_cache_sz; // TODO
-    int ndbl, ndwl, nspd, ndsam1, ndsam2, ndcm;
-    bool force_cache_config;
+    unsigned int ic_proj_type			= 0;      // interconnect_projection_type
+    unsigned int wire_is_mat_type		= 0;  // wire_inside_mat_type
+    unsigned int wire_os_mat_type		= 0; // wire_outside_mat_type
+    enum Wire_type wt				= (Wire_type)0;
+    int force_wiretype				= 0;
+    bool print_input_args			= 0;
+    unsigned int nuca_cache_sz			= 0; // TODO
+    int ndbl = 0, ndwl = 0, nspd = 0, ndsam1 = 0, ndsam2 = 0, ndcm = 0;
+    bool force_cache_config			= 0;
 
-    int cache_level;
-    int cores;
-    int nuca_bank_count;
-    int force_nuca_bank;
+    int cache_level				= 0;
+    int cores					= 0;
+    int nuca_bank_count				= 0;
+    int force_nuca_bank				= 0;
 
-    int delay_wt, dynamic_power_wt, leakage_power_wt,
-        cycle_time_wt, area_wt;
-    int delay_wt_nuca, dynamic_power_wt_nuca, leakage_power_wt_nuca,
-        cycle_time_wt_nuca, area_wt_nuca;
+    int delay_wt = 0, dynamic_power_wt = 0, leakage_power_wt = 0,
+        cycle_time_wt = 0, area_wt = 0;
+    int delay_wt_nuca = 0, dynamic_power_wt_nuca = 0, leakage_power_wt_nuca = 0,
+        cycle_time_wt_nuca = 0, area_wt_nuca = 0;
 
-    int delay_dev, dynamic_power_dev, leakage_power_dev,
-        cycle_time_dev, area_dev;
-    int delay_dev_nuca, dynamic_power_dev_nuca, leakage_power_dev_nuca,
-        cycle_time_dev_nuca, area_dev_nuca;
-    int ed; //ED or ED2 optimization
-    int nuca;
+    int delay_dev = 0, dynamic_power_dev = 0, leakage_power_dev = 0,
+        cycle_time_dev = 0, area_dev = 0;
+    int delay_dev_nuca = 0, dynamic_power_dev_nuca = 0, leakage_power_dev_nuca = 0,
+        cycle_time_dev_nuca = 0, area_dev_nuca = 0;
+    int ed					= 0; //ED or ED2 optimization
+    int nuca					= 0;
 
-    bool     fast_access;
-    unsigned int block_sz;  // bytes
-    unsigned int tag_assoc;
-    unsigned int data_assoc;
-    bool     is_seq_acc;
-    bool     fully_assoc;
-    unsigned int nsets;  // == number_of_sets
-    int print_detail;
+    bool     fast_access			= 0;
+    unsigned int block_sz			= 0;  // bytes
+    unsigned int tag_assoc			= 0;
+    unsigned int data_assoc			= 0;
+    bool     is_seq_acc				= 0;
+    bool     fully_assoc			= 0;
+    unsigned int nsets				= 0;  // == number_of_sets
+    int print_detail				= 0;
 
 
-    bool     add_ecc_b_;
+    bool     add_ecc_b_				= 0;
   //parameters for design constraint
-  double throughput;
-  double latency;
-  bool pipelinable;
-  int pipeline_stages;
-  int per_stage_vector;
-  bool with_clock_grid;
+  double throughput				= 0;
+  double latency				= 0;
+  bool pipelinable				= 0;
+  int pipeline_stages				= 0;
+  int per_stage_vector				= 0;
+  bool with_clock_grid				= 0;
 
-  bool array_power_gated;
-  bool bitline_floating;
-  bool wl_power_gated;
-  bool cl_power_gated;
-  bool interconect_power_gated;
-  bool power_gating;
+  bool array_power_gated			= 0;
+  bool bitline_floating				= 0;
+  bool wl_power_gated				= 0;
+  bool cl_power_gated				= 0;
+  bool interconect_power_gated			= 0;
+  bool power_gating				= 0;
 
-  double perfloss;
+  double perfloss				= 0;
 
-  bool cl_vertical;
+  bool cl_vertical				= 0;
 
   std::vector<double> dvs_voltage;
 
-  bool long_channel_device;
+  bool long_channel_device			= 0;
 };
 
 
