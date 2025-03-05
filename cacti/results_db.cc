@@ -101,12 +101,15 @@ void ResultsDB::close_database(){
 		mdb_env_close(this->env);
 }
 
-bool ResultsDB::get(InputParameter& input_parameter_key, InputParameter& input_parameter_result){
-	//TODO use serialization and deserialization for the vector
+bool ResultsDB::get(InputParameter& input_parameter_key, InputParameter& input_parameter_val){
 	MDB_val key, data;
 
-	key.mv_size = sizeof(InputParameter);
-	key.mv_data = &input_parameter_key;
+	std::stringstream ser_key;
+	serialize(ser_key, input_parameter_key);
+	std::string ser_key_str = ser_key.str();
+
+	key.mv_size = ser_key_str.size();
+	key.mv_data = ser_key_str.data();
 
 	MDB_txn* txn;
 	mdb_txn_begin(this->env, nullptr, MDB_RDONLY, &txn);
@@ -123,20 +126,31 @@ bool ResultsDB::get(InputParameter& input_parameter_key, InputParameter& input_p
 		return false;
 	}
 
-	input_parameter_result = *static_cast<InputParameter*>(data.mv_data);
+	std::stringstream ser_val;
+	ser_val.write(static_cast<const char*>(data.mv_data), data.mv_size);
+	deserialize(ser_val, input_parameter_val);
+
+	//input_parameter_val = *static_cast<InputParameter*>(data.mv_data);
 	mdb_txn_commit(txn);
 	return true;
 }
 
-void ResultsDB::put(InputParameter& input_parameter_key, InputParameter& input_parameter_result){
-	//TODO use serialization and deserialization for the vector
+void ResultsDB::put(InputParameter& input_parameter_key, InputParameter& input_parameter_val){
 	MDB_val key, data;
 
-	key.mv_size = sizeof(InputParameter);
-	key.mv_data = &input_parameter_key;
+	std::stringstream ser_key;
+	serialize(ser_key, input_parameter_key);
+	std::string ser_key_str = ser_key.str();
 
-	data.mv_size = sizeof(InputParameter);
-	data.mv_data = &input_parameter_key;
+	std::stringstream ser_val;
+	serialize(ser_val, input_parameter_val);
+	std::string ser_val_str = ser_val.str();
+
+	key.mv_size = ser_key_str.size();
+	key.mv_data = ser_key_str.data();
+
+	data.mv_size = ser_val_str.size();
+	data.mv_data = ser_val_str.data();
 
 	MDB_txn* txn;
 	mdb_txn_begin(this->env, NULL, 0, &txn);

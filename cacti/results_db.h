@@ -24,6 +24,6 @@ class ResultsDB{
 		ResultsDB(std::filesystem::path database_path);
 		~ResultsDB();
 
-		bool get(InputParameter& input_parameter_key, InputParameter& input_parameter_result);
-		void put(InputParameter& input_parameter_key, InputParameter& input_parameter_result);
+		bool get(InputParameter& input_parameter_key, InputParameter& input_parameter_val);
+		void put(InputParameter& input_parameter_key, InputParameter& input_parameter_val);
 };
