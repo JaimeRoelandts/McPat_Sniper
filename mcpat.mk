@@ -13,7 +13,7 @@ INCS = -lm
 
 ifeq ($(TAG),dbg)
   DBG = -Wall
-  OPT = -ggdb -g -O0 -DNTHREADS=1 -Icacti
+  OPT = -ggdb -g -O0 -DNTHREADS=1 -Icacti -llmdb
 else
   DBG = 
   OPT = -O3 -msse2 -mfpmath=sse -DNTHREADS=$(NTHREADS) -Icacti
@@ -59,7 +59,8 @@ SRCS  = \
   technology.cc \
   uca.cc \
   wire.cc \
-  powergating.cc
+  powergating.cc \
+  results_db.cc
 
 OBJS = $(patsubst %.cc,obj_$(TAG)/%.o,$(SRCS))
 

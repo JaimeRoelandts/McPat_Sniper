@@ -45,6 +45,7 @@
 #include "crossbar.h"
 #include "arbiter.h"
 #include "version_cacti.h"
+#include "results_db.h"
 //#include "highradix.h"
 
 using namespace std;
@@ -3402,7 +3403,22 @@ uca_org_t cacti_interface(InputParameter  * const local_interface)
   init_tech_params(g_ip->F_sz_um, false);
   Wire winit; // Do not delete this line. It initializes wires.
 
-  solve(&fin_res);
+  ResultsDB& results_db = ResultsDB::getInstance();
+  InputParameter key = *g_ip;
+  uca_org_t data;
+
+  bool found = results_db.get(key, data);
+  if(found){
+	  fin_res = data; //TODO this requires a deep copy!
+  }
+  else{
+  	solve(&fin_res);
+	results_db.put(key, fin_res);
+	
+	//TODO remove this, for debugging:
+	bool found = results_db.get(key, data);
+	std::cout << "found " << found << ", data " << std::endl;
+  }
 
   if (!g_ip->dvs_voltage.empty())
   {
