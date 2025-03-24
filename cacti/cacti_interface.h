@@ -114,7 +114,7 @@ enum Wire_type
 
 
 
-class __attribute__((packed)) InputParameter
+class InputParameter
 {
   public:
 

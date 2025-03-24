@@ -3409,7 +3409,7 @@ uca_org_t cacti_interface(InputParameter  * const local_interface)
 
   bool found = results_db.get(key, data);
   if(found){
-	  fin_res = data; //TODO this requires a deep copy!
+	  fin_res = data;
   }
   else{
   	solve(&fin_res);
