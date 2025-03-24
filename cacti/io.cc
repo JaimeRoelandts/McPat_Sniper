@@ -3414,10 +3414,6 @@ uca_org_t cacti_interface(InputParameter  * const local_interface)
   else{
   	solve(&fin_res);
 	results_db.put(key, fin_res);
-	
-	//TODO remove this, for debugging:
-	bool found = results_db.get(key, data);
-	std::cout << "found " << found << ", data " << std::endl;
   }
 
   if (!g_ip->dvs_voltage.empty())
