@@ -1,7 +1,7 @@
-#include "results_db.h"
+#ifdef ENABLE_MEMOIZATION
 #include "Ucache.h"
 #include <cstring>
-
+#include "results_db.h"
 ResultsDB::ResultsDB() : ResultsDB(create_tmp_path()){}
 
 std::filesystem::path ResultsDB::create_tmp_path(){
@@ -647,3 +647,4 @@ template<> std::istream& ResultsDB::deserialize(std::istream& is, min_values_t& 
 	is.read(reinterpret_cast<char*>(&param), sizeof(min_values_t));
 	return is;
 }
+#endif //ENABLE_MEMOIZATION

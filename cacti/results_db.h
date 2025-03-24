@@ -1,10 +1,9 @@
+#ifdef ENABLE_MEMOIZATION
 #include <filesystem>
-
-#include "cacti_interface.h"
-
 #include <lmdb.h>
 #include <ostream>
 #include <istream>
+#include "cacti_interface.h"
 #pragma once
 class ResultsDB{
 	public:
@@ -48,3 +47,4 @@ template<> std::ostream& ResultsDB::serialize(std::ostream& os, mem_array& param
 template<> std::istream& ResultsDB::deserialize(std::istream& is, mem_array& param);
 template<> std::ostream& ResultsDB::serialize(std::ostream& os, min_values_t& param);
 template<> std::istream& ResultsDB::deserialize(std::istream& is, min_values_t& param);
+#endif //ENABLE_MEMOIZATION

@@ -13,11 +13,19 @@ INCS = -lm
 
 ifeq ($(TAG),dbg)
   DBG = -Wall
-  OPT = -ggdb -g -O0 -DNTHREADS=1 -Icacti -llmdb
+  OPT = -ggdb -g -O0 -DNTHREADS=1 -Icacti
 else
   DBG = 
   OPT = -O3 -msse2 -mfpmath=sse -DNTHREADS=$(NTHREADS) -Icacti
   #OPT = -O0 -DNTHREADS=$(NTHREADS)
+endif
+
+# This allows to speed-up execution between runs of mcpat, by keeping intermediate results into a database. (This has nothing to do with CPU-caching.)
+ifneq ($(CACHE),)
+  OPT += -DENABLE_MEMOIZATION
+  LIBS += -llmdb
+else
+  $(warning Results memoization is disabled by default. Please install lmdb and run make with CACHE=1.)
 endif
 
 #CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
@@ -78,5 +86,3 @@ obj_$(TAG)/%.o : %.cc
 
 clean:
 	-rm -f *.o $(TARGET)
-
-
