@@ -34,10 +34,15 @@
 #include "globalvar.h"
 #include "version.h"
 
-
 using namespace std;
 
-void print_usage(char * argv0);
+void print_usage()
+{
+    cerr << "How to use McPAT:" << endl;
+    cerr << "  mcpat -infile <input file name>  -print_level < level of details 0~5 >  -opt_for_clk < 0 (optimize for ED^2P only)/1 (optimzed for target clock rate)>"<< endl;
+    //cerr << "    Note:default print level is at processor level, please increase it to see the details" << endl;
+    exit(1);
+}
 
 int main(int argc,char *argv[])
 {
@@ -48,7 +53,7 @@ int main(int argc,char *argv[])
 	//cout.precision(10);
 	if (argc <= 1 || argv[1] == string("-h") || argv[1] == string("--help"))
 	{
-		print_usage(argv[0]);
+		print_usage();
 	}
 
 	for (int32_t i = 0; i < argc; i++)
@@ -74,7 +79,7 @@ int main(int argc,char *argv[])
 	}
 	if (infile_specified == false)
 	{
-		print_usage(argv[0]);
+		print_usage();
 	}
 
 
@@ -87,12 +92,4 @@ int main(int argc,char *argv[])
 	proc.displayEnergy(2, plevel);
 	delete p1;
 	return 0;
-}
-
-void print_usage(char * argv0)
-{
-    cerr << "How to use McPAT:" << endl;
-    cerr << "  mcpat -infile <input file name>  -print_level < level of details 0~5 >  -opt_for_clk < 0 (optimize for ED^2P only)/1 (optimzed for target clock rate)>"<< endl;
-    //cerr << "    Note:default print level is at processor level, please increase it to see the details" << endl;
-    exit(1);
 }
