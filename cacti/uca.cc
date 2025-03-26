@@ -223,7 +223,7 @@ double UCA::compute_delays(double inrisetime)
     precharge_delay = 0;
   }
 
-  double dram_array_availability = 0;
+  [[maybe_unused]] double dram_array_availability = 0;
   if (dp.is_dram)
   {
     dram_array_availability = (1 - dp.num_r_subarray * cycle_time / dp.dram_refresh_period) * 100;
