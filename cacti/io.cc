@@ -1856,7 +1856,7 @@ void output_UCA(uca_org_t *fr)
 double long_channel_leakage_reduction = 0.1 + 0.9*(0.8*fr->data_array2->long_channel_leakage_reduction_memcell
 														+ 0.2*fr->data_array2->long_channel_leakage_reduction_periperal);//TODO
 double areaoverhead, overhead_data, overhead_tag;
-double wakeup_E, wakeup_T,  wakeup_E_data, wakeup_T_data,  wakeup_E_tag, wakeup_T_tag;
+double wakeup_E, wakeup_T,  wakeup_E_data, wakeup_T_data = 0,  wakeup_E_tag, wakeup_T_tag = 0;
 int dvs_levels = g_ip->dvs_voltage.size();
 int i;
 bool dvs  = !g_ip->dvs_voltage.empty();

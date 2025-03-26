@@ -568,7 +568,7 @@ FunctionalUnit::FunctionalUnit(ParseXML *XML_interface, int ithCore_, InputParam
 void FunctionalUnit::computeEnergy(bool is_tdp)
 {
 	double pppm_t[4]    = {1,1,1,1};
-	double FU_duty_cycle;
+	double FU_duty_cycle = 0;
 	if (is_tdp)
 	{
 
