@@ -62,10 +62,10 @@ Decoder::Decoder(
   is_wl_tr(is_wl_tr_),
   total_driver_nwidth(0),
   total_driver_pwidth(0),
+  sleeptx(NULL),
   cell(cell_),
-  power_gating(power_gating_),
   nodes_DSTN(nodes_DSTN_),
-  sleeptx(NULL)
+  power_gating(power_gating_)
 {
 
   for (int i = 0; i < MAX_NUMBER_GATES_STAGE; i++)
@@ -300,7 +300,7 @@ double Decoder::compute_delays(double inrisetime)
   }
 }
 
-void Decoder::leakage_feedback(double temperature)
+void Decoder::leakage_feedback([[maybe_unused]] double temperature)
 {
   double cumulative_curr = 0;  // cumulative leakage current
   double cumulative_curr_Ig = 0;  // cumulative leakage current
@@ -948,7 +948,7 @@ pair<double, double> PredecBlk::compute_delays(
   return ret_val;
 }
 
-void PredecBlk::leakage_feedback(double temperature)
+void PredecBlk::leakage_feedback([[maybe_unused]] double temperature)
 {
   if (exist)
   { // First check whether a predecoder block is needed
@@ -1430,7 +1430,7 @@ Predec::Predec(
   power.readOp.gate_leakage = driver_power.readOp.gate_leakage + block_power.readOp.gate_leakage;
 }
 
-void PredecBlkDrv::leakage_feedback(double temperature)
+void PredecBlkDrv::leakage_feedback([[maybe_unused]] double temperature)
 {
   double leak_nand2_path = 0;
   double leak_nand3_path = 0;
@@ -1575,9 +1575,9 @@ Driver::Driver(double c_gate_load_, double c_wire_load_, double r_wire_load_, bo
   is_dram_(is_dram),
   total_driver_nwidth(0),
   total_driver_pwidth(0),
-  power_gating(power_gating_),
+  sleeptx(NULL),
   nodes_DSTN(nodes_DSTN_),
-  sleeptx(NULL)
+  power_gating(power_gating_)
 {
   for (int i = 0; i < MAX_NUMBER_GATES_STAGE; i++)
   {

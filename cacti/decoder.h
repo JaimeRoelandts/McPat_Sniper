@@ -35,9 +35,7 @@
 
 #include "area.h"
 #include "component.h"
-#include "parameter.h"
 #include "powergating.h"
-#include <vector>
 
 using namespace std;
 
