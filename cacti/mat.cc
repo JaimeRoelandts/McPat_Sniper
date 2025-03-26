@@ -341,7 +341,7 @@ Mat::Mat(const DynamicParameter & dyn_p)
   //power-gating circuit
   bool is_footer = false;
   double Isat_subarray = 2* simplified_nmos_Isat(g_tp.sram.cell_nmos_w, is_dram, true);//only one wordline active in a subarray 2 means two inverters in an SRAM cell
-  double detalV_array, deltaV_wl, deltaV_floatingBL;
+  double detalV_array;
   double c_wakeup_array;
 
   if (!(is_fa || pure_cam) && g_ip->power_gating)
@@ -437,7 +437,7 @@ Mat::Mat(const DynamicParameter & dyn_p)
                                       sa_mux_lev_1_dec->area.get_area() +
                                       sa_mux_lev_2_dec->area.get_area()) * (RWP + ERP + EWP);
 
-  double area_efficiency_mat;
+  [[maybe_unused]] double area_efficiency_mat;
 
 //  if (!is_fa)
 //  {
@@ -711,10 +711,10 @@ double Mat::compute_cam_delay(double inrisetime)
   double Rwire, tf, c_intrinsic, rd, Cwire, c_gate_load;
 
 
-  double Wdecdrivep, Wdecdriven, Wfadriven, Wfadrivep, Wfadrive2n, Wfadrive2p, Wfadecdrive1n, Wfadecdrive1p,
-    Wfadecdrive2n, Wfadecdrive2p, Wfadecdriven, Wfadecdrivep, Wfaprechn, Wfaprechp,
-    Wdummyn, Wdummyinvn, Wdummyinvp, Wfainvn, Wfainvp, Waddrnandn, Waddrnandp,
-    Wfanandn, Wfanandp, Wfanorn, Wfanorp, Wdecnandn, Wdecnandp, W_hit_miss_n, W_hit_miss_p;
+  [[maybe_unused]] double Wdecdrivep, Wdecdriven, Wfadriven, Wfadrivep, Wfadrive2n, Wfadrive2p, Wfadecdrive1n, Wfadecdrive1p, 
+	  Wfadecdrive2n, Wfadecdrive2p, Wfadecdriven, Wfadecdrivep, Wfaprechn,
+	  Wfainvn, Wfainvp, Wfanandn, Wfanandp, Wdecnandn, Wdecnandp;
+  double Wfaprechp, Wdummyn, Wdummyinvn, Wdummyinvp, Waddrnandn, Waddrnandp, Wfanorn, Wfanorp, W_hit_miss_n, W_hit_miss_p;
 
   double c_matchline_metal, r_matchline_metal, c_searchline_metal, r_searchline_metal,  dynSearchEng;
   int Htagbits;
@@ -1283,7 +1283,7 @@ double Mat::compute_bitline_delay(double inrisetime)
 
 
 
-double Mat::compute_sa_delay(double inrisetime)
+double Mat::compute_sa_delay([[maybe_unused]] double inrisetime)
 {
   //int num_sa_subarray = subarray.num_cols / deg_bl_muxing; //in a subarray
 
