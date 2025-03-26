@@ -33,18 +33,12 @@
 #ifndef __NUCA_H__
 #define __NUCA_H__
 
-#include "basic_circuit.h"
 #include "component.h"
 #include "parameter.h"
 #include "assert.h"
 #include "cacti_interface.h"
 #include "wire.h"
-#include "mat.h"
-#include "io.h"
 #include "router.h"
-#include <iostream>
-
-
 
 class nuca_org_t {
   public:
@@ -76,7 +70,7 @@ class Nuca : public Component
 {
   public:
     Nuca(
-        TechnologyParameter::DeviceType *dt);
+        TechnologyParameter::DeviceType *dt = &(g_tp.peri_global));
     void print_router();
     ~Nuca();
     void sim_nuca();
