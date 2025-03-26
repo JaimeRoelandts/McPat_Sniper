@@ -265,8 +265,7 @@ inline void set_sppm(
 	double * sppv,
 	double a=1,
     double b=1,
-    double c=1,
-    double d=1
+    double c=1
     ){
 		sppv[0]= a;
 		sppv[1]= b;

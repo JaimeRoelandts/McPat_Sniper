@@ -98,7 +98,7 @@ double logtwo (double x)
 
 double gate_C(
     double width,
-    double wirelength,
+    [[maybe_unused]] double wirelength,
     bool   _is_dram,
     bool   _is_cell,
     bool   _is_wl_tr,
@@ -135,7 +135,7 @@ double gate_C(
 // actually this function is the same as gate_C() now
 double gate_C_pass(
     double width,       // gate width in um (length is Lphy_periph_global)
-    double wirelength,  // poly wire length going to gate in lambda
+    [[maybe_unused]] double wirelength,  // poly wire length going to gate in lambda
     bool   _is_dram,
     bool   _is_cell,
     bool   _is_wl_tr,
@@ -840,8 +840,8 @@ double shortcircuit_simple(
     double velocity_index,
     double c_in,
     double c_out,
-    double w_nmos,
-    double w_pmos,
+    [[maybe_unused]] double w_nmos,
+    [[maybe_unused]] double w_pmos,
     double i_on_n,
     double i_on_p,
     double i_on_n_in,
@@ -849,7 +849,8 @@ double shortcircuit_simple(
     double vdd)
 {
 
-	double p_short_circuit, p_short_circuit_discharge, p_short_circuit_charge, p_short_circuit_discharge_low, p_short_circuit_discharge_high, p_short_circuit_charge_low, p_short_circuit_charge_high; //this is actually energy
+	double p_short_circuit, p_short_circuit_discharge, p_short_circuit_charge, p_short_circuit_discharge_low, p_short_circuit_charge_low; //this is actually energy
+	[[maybe_unused]] double p_short_circuit_discharge_high, p_short_circuit_charge_high;
 	double fo_n, fo_p, fanout, beta_ratio, vt_to_vdd_ratio;
 
 	fo_n	= i_on_n/i_on_n_in;
@@ -889,9 +890,9 @@ double shortcircuit(
     double vt,
     double velocity_index,
     double c_in,
-    double c_out,
-    double w_nmos,
-    double w_pmos,
+    [[maybe_unused]] double c_out,
+    [[maybe_unused]] double w_nmos,
+    [[maybe_unused]] double w_pmos,
     double i_on_n,
     double i_on_p,
     double i_on_n_in,
@@ -899,8 +900,10 @@ double shortcircuit(
     double vdd)
 {
 
-	double p_short_circuit=0, p_short_circuit_discharge;//, p_short_circuit_charge, p_short_circuit_discharge_low, p_short_circuit_discharge_high, p_short_circuit_charge_low, p_short_circuit_charge_high; //this is actually energy
-	double fo_n, fo_p, fanout, beta_ratio, vt_to_vdd_ratio;
+	double p_short_circuit=0;
+	[[maybe_unused]] double p_short_circuit_discharge;//, p_short_circuit_charge, p_short_circuit_discharge_low, p_short_circuit_discharge_high, p_short_circuit_charge_low, p_short_circuit_charge_high; //this is actually energy
+	[[maybe_unused]] double fo_n, vt_to_vdd_ratio;
+	double fo_p, fanout, beta_ratio;
 	double f_alpha, k_v, e, g_v_alpha, h_v_alpha;
 
 	fo_n		= i_on_n/i_on_n_in;
