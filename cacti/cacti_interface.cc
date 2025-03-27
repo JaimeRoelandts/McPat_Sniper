@@ -29,21 +29,12 @@
  *
  ***************************************************************************/
 
-#include <time.h>
 #include <math.h>
+#include <pthread.h>
 
-
-#include "area.h"
-#include "basic_circuit.h"
-#include "component.h"
 #include "const.h"
 #include "parameter.h"
 #include "cacti_interface.h"
-#include "Ucache.h"
-
-#include <pthread.h>
-#include <iostream>
-#include <algorithm>
 
 using namespace std;
 
@@ -180,7 +171,7 @@ void uca_org_t :: cleanup()
 	}
 
 	std::vector<uca_org_t * >::size_type sz = uca_q.size();
-	for (int i=sz-1; i>=0; i--)
+	for (int i=(int)sz-1; i>=0; i--)
 	{
 		if (uca_q[i]->data_array2!=0)
 		{

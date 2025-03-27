@@ -147,7 +147,7 @@ dep_resource_conflict_check::dep_resource_conflict_check(
     	else
     		compare_bits += 16 + 8 + 8;
 
-   		conflict_check_power();
+   	conflict_check_power();
     	double sckRation = g_tp.sckt_co_eff;
     	power.readOp.dynamic *= sckRation;
     	power.writeOp.dynamic *= sckRation;
@@ -568,7 +568,7 @@ FunctionalUnit::FunctionalUnit(ParseXML *XML_interface, int ithCore_, InputParam
 void FunctionalUnit::computeEnergy(bool is_tdp)
 {
 	double pppm_t[4]    = {1,1,1,1};
-	double FU_duty_cycle;
+	double FU_duty_cycle = 0;
 	if (is_tdp)
 	{
 
@@ -642,7 +642,7 @@ void FunctionalUnit::computeEnergy(bool is_tdp)
 
 }
 
-void FunctionalUnit::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void FunctionalUnit::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	string indent_str(indent, ' ');
 	string indent_str_next(indent+2, ' ');
@@ -749,7 +749,7 @@ void FunctionalUnit::leakage_feedback(double temperature)
 
 }
 
-UndiffCore::UndiffCore(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip_, const CoreDynParam & dyn_p_, bool exist_,  bool embedded_)
+UndiffCore::UndiffCore(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip_, const CoreDynParam & dyn_p_, bool exist_, [[maybe_unused]] bool embedded_)
 :XML(XML_interface),
  ithCore(ithCore_),
  interface_ip(*interface_ip_),
@@ -859,7 +859,7 @@ UndiffCore::UndiffCore(ParseXML* XML_interface, int ithCore_, InputParameter* in
 }
 
 
-void UndiffCore::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void UndiffCore::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	string indent_str(indent, ' ');
 	string indent_str_next(indent+2, ' ');
@@ -1016,7 +1016,7 @@ inst_decoder::inst_decoder(
 void inst_decoder::inst_decoder_delay_power()
 {
 
-	double dec_outrisetime;
+	[[maybe_unused]] double dec_outrisetime;
 	double inrisetime=0, outrisetime;
 	double pppm_t[4]    = {1,1,1,1};
 	double squencer_passes = x86?2:1;

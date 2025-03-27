@@ -12,7 +12,7 @@ LIBS =
 INCS = -lm
 
 ifeq ($(TAG),dbg)
-  DBG = -Wall
+  DBG =
   OPT = -ggdb -g -O0 -DNTHREADS=1 -Icacti
 else
   DBG = 
@@ -29,7 +29,7 @@ else
 endif
 
 #CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
-CXXFLAGS = -Wno-unknown-pragmas $(DBG) $(OPT) 
+CXXFLAGS = -Wall -Wextra -Werror -Wno-unknown-pragmas -std=c++17 $(DBG) $(OPT) 
 CXX = g++
 CC  = gcc
 

@@ -33,17 +33,13 @@
 
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <string.h>
 
 #include "io.h"
-#include "area.h"
 #include "basic_circuit.h"
 #include "parameter.h"
 #include "Ucache.h"
 #include "nuca.h"
-#include "crossbar.h"
-#include "arbiter.h"
 #include "version_cacti.h"
 #include "results_db.h"
 //#include "highradix.h"
@@ -979,7 +975,7 @@ uca_org_t cacti_interface(
     int nuca_obj_func_leakage_power,
     int nuca_obj_func_area,
     int nuca_obj_func_cycle_time,
-    int nuca_dev_func_delay,
+    [[maybe_unused]] int nuca_dev_func_delay,
     int nuca_dev_func_dynamic_power,
     int nuca_dev_func_leakage_power,
     int nuca_dev_func_area,
@@ -1153,7 +1149,7 @@ uca_org_t cacti_interface(
     int dev_func_cycle_time,
     int ed_ed2_none, // 0 - ED, 1 - ED^2, 2 - use weight and deviate
     int temp,
-    int wt, //0 - default(search across everything), 1 - global, 2 - 5% delay penalty, 3 - 10%, 4 - 20 %, 5 - 30%, 6 - low-swing
+    [[maybe_unused]] int wt, //0 - default(search across everything), 1 - global, 2 - 5% delay penalty, 3 - 10%, 4 - 20 %, 5 - 30%, 6 - low-swing
     int data_arr_ram_cell_tech_flavor_in,//para30
     int data_arr_peri_global_tech_flavor_in,
     int tag_arr_ram_cell_tech_flavor_in,
@@ -1269,7 +1265,7 @@ uca_org_t cacti_interface(
     {
   	  g_ip->force_cache_config = false;
     }
-    else
+  else
     {
     	g_ip->force_cache_config = true;
     	g_ip->ndbl=ndbl;
@@ -1769,7 +1765,7 @@ void output_data_csv(const uca_org_t & fin_res)
     {
     	file << fin_res.power.searchOp.dynamic*1e+9 << ", ";
     }
-    	else
+    else
     {
     		file << "N/A" << ", ";
     }
@@ -1860,7 +1856,7 @@ void output_UCA(uca_org_t *fr)
 double long_channel_leakage_reduction = 0.1 + 0.9*(0.8*fr->data_array2->long_channel_leakage_reduction_memcell
 														+ 0.2*fr->data_array2->long_channel_leakage_reduction_periperal);//TODO
 double areaoverhead, overhead_data, overhead_tag;
-double wakeup_E, wakeup_T,  wakeup_E_data, wakeup_T_data,  wakeup_E_tag, wakeup_T_tag;
+double wakeup_E, wakeup_T,  wakeup_E_data, wakeup_T_data = 0,  wakeup_E_tag, wakeup_T_tag = 0;
 int dvs_levels = g_ip->dvs_voltage.size();
 int i;
 bool dvs  = !g_ip->dvs_voltage.empty();

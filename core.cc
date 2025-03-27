@@ -735,7 +735,8 @@ LoadStoreU::LoadStoreU(ParseXML* XML_interface, int ithCore_, InputParameter* in
  exist(exist_)
 {
 	  if (!exist) return;
-	  int  idx, tag, data, size, line, assoc, banks;
+	  int  idx, tag, data, size, line, assoc;
+	  [[maybe_unused]] int banks;
 	  bool debug= false;
 	  int ldst_opcode = XML->sys.core[ithCore].opcode_width;//16;
 
@@ -1159,7 +1160,6 @@ EXECU::EXECU(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip
  fpTagBypass(0),
  exist(exist_)
 {
-	  bool exist_flag = true;
 	  if (!exist) return;
 	  double fu_height = 0.0;
       clockRate = coredynp.clockRate;
@@ -2038,7 +2038,7 @@ void BranchPredictor::computeEnergy(bool is_tdp)
     }
 }
 
-void BranchPredictor::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void BranchPredictor::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	if (!exist) return;
 	string indent_str(indent, ' ');
@@ -2371,8 +2371,8 @@ void InstFetchU::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
 							ID_operand->power.readOp.leakage +
 							ID_misc->power.readOp.leakage))  << " W" << endl;
 
-		double tot_leakage = (ID_inst->power.readOp.leakage + ID_operand->power.readOp.leakage + ID_misc->power.readOp.leakage);
-		double tot_leakage_longchannel = (ID_inst->power.readOp.longer_channel_leakage + ID_operand->power.readOp.longer_channel_leakage + ID_misc->power.readOp.longer_channel_leakage);
+		[[maybe_unused]] double tot_leakage = (ID_inst->power.readOp.leakage + ID_operand->power.readOp.leakage + ID_misc->power.readOp.leakage);
+		[[maybe_unused]] double tot_leakage_longchannel = (ID_inst->power.readOp.longer_channel_leakage + ID_operand->power.readOp.longer_channel_leakage + ID_misc->power.readOp.longer_channel_leakage);
 		double tot_leakage_pg = (ID_inst->power.readOp.power_gated_leakage + ID_operand->power.readOp.power_gated_leakage + ID_misc->power.readOp.power_gated_leakage);
 		double tot_leakage_pg_with_long_channel = (ID_inst->power.readOp.power_gated_with_long_channel_leakage + ID_operand->power.readOp.power_gated_with_long_channel_leakage + ID_misc->power.readOp.power_gated_with_long_channel_leakage);
 
@@ -2803,7 +2803,7 @@ void RENAMINGU::computeEnergy(bool is_tdp)
 	}
 }
 
-void RENAMINGU::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void RENAMINGU::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	if (!exist) return;
 	string indent_str(indent, ' ');
@@ -3127,7 +3127,7 @@ void SchedulerU::computeEnergy(bool is_tdp)
 //	cout<<"selection"<<instruction_selection->power.readOp.dynamic<<"leakage"<<instruction_selection->power.readOp.leakage<<endl;
 }
 
-void SchedulerU::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void SchedulerU::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	if (!exist) return;
 	string indent_str(indent, ' ');
@@ -3406,7 +3406,7 @@ void LoadStoreU::computeEnergy(bool is_tdp)
 }
 
 
-void LoadStoreU::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void LoadStoreU::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	if (!exist) return;
 	string indent_str(indent, ' ');
@@ -3535,7 +3535,7 @@ void MemManU::computeEnergy(bool is_tdp)
 		dtlb->power = dtlb->power_t + dtlb->local_result.power *pppm_lkg;
 		power     = power + itlb->power + dtlb->power;
 	    }
-	    else
+	else
 	    {
 			itlb->rt_power = itlb->power_t + itlb->local_result.power *pppm_lkg;
 			dtlb->rt_power = dtlb->power_t + dtlb->local_result.power *pppm_lkg;
@@ -3543,7 +3543,7 @@ void MemManU::computeEnergy(bool is_tdp)
 	    }
 }
 
-void MemManU::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void MemManU::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	if (!exist) return;
 	string indent_str(indent, ' ');
@@ -3683,7 +3683,7 @@ void RegFU::computeEnergy(bool is_tdp)
 }
 
 
-void RegFU::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void RegFU::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	if (!exist) return;
 	string indent_str(indent, ' ');

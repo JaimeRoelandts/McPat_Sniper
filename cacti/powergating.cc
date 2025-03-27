@@ -32,9 +32,6 @@
 #include "area.h"
 #include "powergating.h"
 #include "parameter.h"
-#include <iostream>
-#include <math.h>
-#include <assert.h>
 
 using namespace std;
 
@@ -76,12 +73,12 @@ Sleep_tx::Sleep_tx(
 :perf_with_sleep_tx(_perf_with_sleep_tx),
  active_Isat(_active_Isat),
  is_footer(_is_footer),
- c_circuit_wakeup(_c_circuit_wakeup),
  num_sleep_tx(_num_sleep_tx),
 // vt_circuit(_vt_circuit),
 // vt_sleep_tx(_vt_sleep_tx),
 // mobility(_mobility),
 // c_ox(_c_ox)
+ c_circuit_wakeup(_c_circuit_wakeup),
  cell(cell_),
  is_sleep_tx(true),
  V_delta(_V_delta)

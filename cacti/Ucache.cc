@@ -241,8 +241,8 @@ bool calculate_time(
     unsigned int Ndsam_lev_2,
     mem_array *ptr_array,
     int flag_results_populate,
-    results_mem_array *ptr_results,
-    uca_org_t *ptr_fin_res,
+    [[maybe_unused]] results_mem_array *ptr_results,
+    [[maybe_unused]] uca_org_t *ptr_fin_res,
     bool is_main_mem)
 {
   DynamicParameter dyn_p(is_tag, pure_ram, pure_cam, Nspd, Ndwl, Ndbl, Ndcm, Ndsam_lev_1, Ndsam_lev_2, is_main_mem);
@@ -275,7 +275,7 @@ void collect_uca_results(
     double Nspd,
     unsigned int Ndwl,
     unsigned int Ndbl,
-    unsigned int Ndcm,
+    [[maybe_unused]] unsigned int Ndcm,
     unsigned int Ndsam_lev_1,
     unsigned int Ndsam_lev_2,
     UCA const * const uca,
@@ -283,7 +283,7 @@ void collect_uca_results(
 //    int flag_results_populate,
 //    results_mem_array *ptr_results,
 //    uca_org_t *ptr_fin_res,
-    bool is_main_mem)
+    [[maybe_unused]] bool is_main_mem)
 {
 	  int num_act_mats_hor_dir = uca->bank.dp.num_act_mats_hor_dir;
 	  int num_mats = uca->bank.dp.num_mats;
@@ -729,7 +729,7 @@ void filter_data_arr(list<mem_array *> & curr_list)
  */
 void solve(uca_org_t *fin_res)
 {
-  bool   is_dram  = false;
+  [[maybe_unused]] bool   is_dram  = false;
   int    pure_ram = g_ip->pure_ram;
   bool   pure_cam = g_ip->pure_cam;
 

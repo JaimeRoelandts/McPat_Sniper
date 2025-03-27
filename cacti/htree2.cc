@@ -34,7 +34,6 @@
 #include "htree2.h"
 #include "wire.h"
 #include <assert.h>
-#include <iostream>
 
 Htree2::Htree2(
     enum Wire_type wire_model, double mat_w, double mat_h,
@@ -285,31 +284,31 @@ Htree2::in_htree()
   {
     if (ndwl == ndbl) {
       ht_temp = ((mat_height*ndbl/2) +
-          ((add_bits + (search_data_in_bits + search_data_out_bits))* (ndbl/2-1) * g_tp.wire_outside_mat.pitch) +
+          ((add_bits + (search_data_in_bits + search_data_out_bits))* (int)(ndbl/2-1) * g_tp.wire_outside_mat.pitch) +
           ((data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * h)
           )/2;
       len_temp = (mat_width*ndwl/2 +
-        ((add_bits + (search_data_in_bits + search_data_out_bits)) * (ndwl/2-1) * g_tp.wire_outside_mat.pitch) +
+        ((add_bits + (search_data_in_bits + search_data_out_bits)) * (int)(ndwl/2-1) * g_tp.wire_outside_mat.pitch) +
         ((data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * v))/2;
     }
     else if (ndwl > ndbl) {
       double excess_part = (_log2(ndwl/2) - _log2(ndbl/2));
       ht_temp = ((mat_height*ndbl/2) +
-          ((add_bits + + (search_data_in_bits + search_data_out_bits)) * ((ndbl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
+          ((add_bits + + (search_data_in_bits + search_data_out_bits)) * ((int)(ndbl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
           (data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch *
           (2*(1 - pow(0.5, h-v)) + pow(0.5, v-h) * v))/2;
       len_temp = (mat_width*ndwl/2 +
-        ((add_bits + (search_data_in_bits + search_data_out_bits))* (ndwl/2-1) * g_tp.wire_outside_mat.pitch) +
+        ((add_bits + (search_data_in_bits + search_data_out_bits))* (int)(ndwl/2-1) * g_tp.wire_outside_mat.pitch) +
         ((data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * v))/2;
     }
     else {
        double excess_part = (_log2(ndbl/2) - _log2(ndwl/2));
       ht_temp = ((mat_height*ndbl/2) +
-          ((add_bits + (search_data_in_bits + search_data_out_bits))* ((ndwl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
+          ((add_bits + (search_data_in_bits + search_data_out_bits))* ((int)(ndwl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
           ((data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * h)
           )/2;
       len_temp = (mat_width*ndwl/2 +
-          ((add_bits + (search_data_in_bits + search_data_out_bits)) * ((ndwl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
+          ((add_bits + (search_data_in_bits + search_data_out_bits)) * ((int)(ndwl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
           (data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * (h + 2*(1-pow(0.5, v-h))))/2;
     }
   }
@@ -491,32 +490,32 @@ void Htree2::out_htree()
     {
     if (ndwl == ndbl) {
       ht_temp = ((mat_height*ndbl/2) +
-          ((add_bits+ (search_data_in_bits + search_data_out_bits)) * (ndbl/2-1) * g_tp.wire_outside_mat.pitch) +
+          ((add_bits+ (search_data_in_bits + search_data_out_bits)) * (int)(ndbl/2-1) * g_tp.wire_outside_mat.pitch) +
           ((data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * h)
           )/2;
       len_temp = (mat_width*ndwl/2 +
-        ((add_bits + (search_data_in_bits + search_data_out_bits)) * (ndwl/2-1) * g_tp.wire_outside_mat.pitch) +
+        ((add_bits + (search_data_in_bits + search_data_out_bits)) * (int)(ndwl/2-1) * g_tp.wire_outside_mat.pitch) +
         ((data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * v))/2;
 
     }
     else if (ndwl > ndbl) {
       double excess_part = (_log2(ndwl/2) - _log2(ndbl/2));
       ht_temp = ((mat_height*ndbl/2) +
-          ((add_bits + (search_data_in_bits + search_data_out_bits)) * ((ndbl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
+          ((add_bits + (search_data_in_bits + search_data_out_bits)) * ((int)(ndbl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
           (data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch *
           (2*(1 - pow(0.5, h-v)) + pow(0.5, v-h) * v))/2;
       len_temp = (mat_width*ndwl/2 +
-        ((add_bits + (search_data_in_bits + search_data_out_bits))* (ndwl/2-1) * g_tp.wire_outside_mat.pitch) +
+        ((add_bits + (search_data_in_bits + search_data_out_bits))* (int)(ndwl/2-1) * g_tp.wire_outside_mat.pitch) +
         ((data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * v))/2;
     }
     else {
       double excess_part = (_log2(ndbl/2) - _log2(ndwl/2));
       ht_temp = ((mat_height*ndbl/2) +
-          ((add_bits + (search_data_in_bits + search_data_out_bits))* ((ndwl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
+          ((add_bits + (search_data_in_bits + search_data_out_bits))* ((int)(ndwl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
           ((data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * h)
           )/2;
       len_temp = (mat_width*ndwl/2 +
-          ((add_bits + (search_data_in_bits + search_data_out_bits))* ((ndwl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
+          ((add_bits + (search_data_in_bits + search_data_out_bits))* ((int)(ndwl/2-1) + excess_part) * g_tp.wire_outside_mat.pitch) +
           (data_in_bits + data_out_bits) * g_tp.wire_outside_mat.pitch * (h + 2*(1-pow(0.5, v-h))))/2;
     }
   }

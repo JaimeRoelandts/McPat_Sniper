@@ -28,17 +28,12 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.”
  *
  ***************************************************************************/
-#include "io.h"
 #include "parameter.h"
-#include "const.h"
-#include "logic.h"
 #include "basic_circuit.h"
 #include <iostream>
-#include <algorithm>
 #include "XML_Parse.h"
 #include <string>
 #include <cmath>
-#include <assert.h>
 #include "iocontrollers.h"
 #include "basic_components.h"
 
@@ -75,9 +70,11 @@ NIUController::NIUController(ParseXML *XML_interface,InputParameter* interface_i
  {
 
 
-	  double frontend_area, phy_area, mac_area, SerDer_area;
-      double frontend_dyn, mac_dyn, SerDer_dyn;
-      double frontend_gates, mac_gates, SerDer_gates = 0.;
+	  double frontend_area, mac_area, SerDer_area;
+	  [[maybe_unused]] double phy_area;
+	  double frontend_dyn, mac_dyn, SerDer_dyn;
+	  double frontend_gates, mac_gates;
+          [[maybe_unused]] double SerDer_gates = 0.;
 	  double pmos_to_nmos_sizing_r = pmos_to_nmos_sz_ratio();
 	  double NMOS_sizing, PMOS_sizing;
 
@@ -159,21 +156,16 @@ NIUController::NIUController(ParseXML *XML_interface,InputParameter* interface_i
 void NIUController::computeEnergy(bool is_tdp)
 {
 	if (is_tdp)
-    {
-
-
+	{
 		power	= power_t;
-    	power.readOp.dynamic *= niup.duty_cycle;
-
-    }
-    else
-    {
-    	rt_power = power_t;
-    	rt_power.readOp.dynamic *= niup.perc_load;
-    }
+		power.readOp.dynamic *= niup.duty_cycle;
+	}else{
+		rt_power = power_t;
+		rt_power.readOp.dynamic *= niup.perc_load;
+	}
 }
 
-void NIUController::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void NIUController::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	string indent_str(indent, ' ');
 	string indent_str_next(indent+2, ' ');
@@ -232,9 +224,12 @@ PCIeController::PCIeController(ParseXML *XML_interface,InputParameter* interface
  interface_ip(*interface_ip_)
  {
 
-	  double frontend_area, phy_area, ctrl_area, SerDer_area;
-      double ctrl_dyn, frontend_dyn, SerDer_dyn;
-      double ctrl_gates,frontend_gates, SerDer_gates=0.;
+	  double frontend_area, ctrl_area, SerDer_area;
+	  [[maybe_unused]] double phy_area;
+	  double ctrl_dyn, SerDer_dyn;
+          [[maybe_unused]] double frontend_dyn;
+	  double ctrl_gates, SerDer_gates=0.;
+	  [[maybe_unused]] double frontend_gates;
 	  double pmos_to_nmos_sizing_r = pmos_to_nmos_sz_ratio();
 	  double NMOS_sizing, PMOS_sizing;
 
@@ -309,22 +304,16 @@ PCIeController::PCIeController(ParseXML *XML_interface,InputParameter* interface
 
 void PCIeController::computeEnergy(bool is_tdp)
 {
-	if (is_tdp)
-    {
-
-
+	if (is_tdp){
 		power	= power_t;
-    	power.readOp.dynamic *= pciep.duty_cycle;
-
-    }
-    else
-    {
-    	rt_power = power_t;
-    	rt_power.readOp.dynamic *= pciep.perc_load;
-    }
+		power.readOp.dynamic *= pciep.duty_cycle;
+	} else {
+		rt_power = power_t;
+		rt_power.readOp.dynamic *= pciep.perc_load;
+	}
 }
 
-void PCIeController::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void PCIeController::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	string indent_str(indent, ' ');
 	string indent_str_next(indent+2, ' ');
@@ -387,9 +376,11 @@ FlashController::FlashController(ParseXML *XML_interface,InputParameter* interfa
  interface_ip(*interface_ip_)
  {
 
-	  double frontend_area, phy_area, ctrl_area, SerDer_area;
-      double ctrl_dyn, frontend_dyn, SerDer_dyn;
-      double ctrl_gates,frontend_gates, SerDer_gates=0.;
+	  double ctrl_area, SerDer_area;
+	  [[maybe_unused]] double frontend_area, phy_area;
+	  double ctrl_dyn, SerDer_dyn;
+          [[maybe_unused]] double frontend_dyn;
+	  double ctrl_gates, SerDer_gates=0.;
 	  double pmos_to_nmos_sizing_r = pmos_to_nmos_sz_ratio();
 	  double NMOS_sizing, PMOS_sizing;
 
@@ -440,22 +431,16 @@ FlashController::FlashController(ParseXML *XML_interface,InputParameter* interfa
 
 void FlashController::computeEnergy(bool is_tdp)
 {
-	if (is_tdp)
-    {
-
-
+	if (is_tdp) {
 		power	= power_t;
-    	power.readOp.dynamic *= fcp.duty_cycle;
-
-    }
-    else
-    {
-    	rt_power = power_t;
-    	rt_power.readOp.dynamic *= fcp.perc_load;
-    }
+		power.readOp.dynamic *= fcp.duty_cycle;
+	} else {
+		rt_power = power_t;
+		rt_power.readOp.dynamic *= fcp.perc_load;
+	}
 }
 
-void FlashController::displayEnergy(uint32_t indent,int plevel,bool is_tdp)
+void FlashController::displayEnergy(uint32_t indent, [[maybe_unused]] int plevel,bool is_tdp)
 {
 	string indent_str(indent, ' ');
 	string indent_str_next(indent+2, ' ');

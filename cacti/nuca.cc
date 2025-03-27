@@ -40,11 +40,9 @@ unsigned int MIN_BANKSIZE=65536;
 #define LATCH_DELAY 28e-12 /* latch delay in s (later should use FO4 TODO) */
 #define CONTR_2_BANK_LAT 0
 
-int cont_stats[2 /*l2 or l3*/][5/* cores */][ROUTER_TYPES][7 /*banks*/][8 /* cycle time */];
+int cont_stats[2 /*l2 or l3*/][5/* cores */][ROUTER_TYPES][8 /*banks*/][8 /* cycle time */];
 
-  Nuca::Nuca(
-      TechnologyParameter::DeviceType *dt = &(g_tp.peri_global)
-      ):deviceType(dt)
+  Nuca::Nuca(TechnologyParameter::DeviceType *dt):deviceType(dt)
 {
   init_cont();
 }
@@ -142,7 +140,7 @@ Nuca::sim_nuca()
   /* temp variables */
   int it, ro, wr;
   int num_cyc;
-  unsigned int i, j, k;
+  unsigned int i, j;
   unsigned int r, c;
   int l2_c;
   int bank_count = 0;
@@ -166,10 +164,9 @@ Nuca::sim_nuca()
   double avg_lat, avg_hop, avg_hhop, avg_vhop, avg_dyn_power,
          avg_leakage_power;
 
-  double opt_acclat = INF, opt_avg_lat = INF, opt_tot_lat = INF;
+  double opt_acclat = INF;
   int opt_rows = 0;
   int opt_columns = 0;
-  double opt_totno_hops = 0;
   double opt_avg_hop = 0;
   double opt_dyn_power = 0, opt_leakage_power = 0;
   min_values_t minval;
@@ -207,7 +204,7 @@ Nuca::sim_nuca()
     }
   }
 
-  iterations = (int)logtwo((int)g_ip->cache_sz/MIN_BANKSIZE);
+  iterations = (int)logtwo((int)(g_ip->cache_sz/MIN_BANKSIZE));
 
   if (g_ip->force_wiretype)
   {
@@ -285,7 +282,6 @@ Nuca::sim_nuca()
            * count value.
            */
           totno_hops = totno_hhops = totno_vhops = tot_lat = 0;
-          k = 1;
           for (i=0; i<r; i++) {
             for (j=0; j<c; j++) {
               /*
@@ -331,9 +327,6 @@ Nuca::sim_nuca()
 
           if (curr_acclat < opt_acclat) {
             opt_acclat = curr_acclat;
-            opt_tot_lat = tot_lat;
-            opt_avg_lat = avg_lat;
-            opt_totno_hops = totno_hops;
             opt_avg_hop = avg_hop;
             opt_rows = r;
             opt_columns = c;
@@ -369,15 +362,15 @@ Nuca::sim_nuca()
 
         if (it < 7) {
           nuca_list.back()->nuca_pda.delay = opt_acclat +
-            cont_stats[l2_c][core_in][ro][it][num_cyc/2-1];
+            cont_stats[l2_c][core_in][ro][it][(int)(num_cyc/2-1)];
           nuca_list.back()->contention =
-            cont_stats[l2_c][core_in][ro][it][num_cyc/2-1];
+            cont_stats[l2_c][core_in][ro][it][(int)(num_cyc/2-1)];
         }
         else {
           nuca_list.back()->nuca_pda.delay = opt_acclat +
-            cont_stats[l2_c][core_in][ro][7][num_cyc/2-1];
+            cont_stats[l2_c][core_in][ro][7][(int)(num_cyc/2-1)];
           nuca_list.back()->contention =
-            cont_stats[l2_c][core_in][ro][7][num_cyc/2-1];
+            cont_stats[l2_c][core_in][ro][7][(int)(num_cyc/2-1)];
         }
         nuca_list.back()->nuca_pda.power.readOp.dynamic = opt_dyn_power;
         nuca_list.back()->nuca_pda.power.readOp.leakage = opt_leakage_power;

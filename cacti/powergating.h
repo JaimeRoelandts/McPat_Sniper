@@ -75,7 +75,7 @@ public:
 //	void   compute_area();
 	void compute_penalty();
 
-	void leakage_feedback(double temperature){};
+	//void leakage_feedback(double temperature){};
 	~Sleep_tx(){};
 };
 

@@ -57,12 +57,12 @@ double wire_capacitance(double wire_width, double wire_thickness, double wire_sp
 void init_tech_params(double technology, bool is_tag)
 {
   int    iter, tech, tech_lo, tech_hi;
-  double curr_alpha, curr_vpp;
+  double curr_alpha, curr_vpp = 0.;
   double wire_width, wire_thickness, wire_spacing,
          fringe_cap, pmos_to_nmos_sizing_r;
 //  double aspect_ratio,ild_thickness, miller_value = 1.5, horiz_dielectric_constant, vert_dielectric_constant;
   double barrier_thickness, dishing_thickness, alpha_scatter;
-  double curr_vdd_dram_cell, curr_v_th_dram_access_transistor, curr_I_on_dram_cell, curr_c_dram_cell;
+  double curr_vdd_dram_cell = 0., curr_v_th_dram_access_transistor = 0., curr_I_on_dram_cell = 0., curr_c_dram_cell = 0.;
 
   uint32_t ram_cell_tech_type    = (is_tag) ? g_ip->tag_arr_ram_cell_tech_type : g_ip->data_arr_ram_cell_tech_type;
   uint32_t peri_global_tech_type = (is_tag) ? g_ip->tag_arr_peri_global_tech_type : g_ip->data_arr_peri_global_tech_type;
@@ -73,13 +73,13 @@ void init_tech_params(double technology, bool is_tag)
   g_tp.reset();
   double gmp_to_gmn_multiplier_periph_global = 0;
 
-  double curr_Wmemcella_dram, curr_Wmemcellpmos_dram, curr_Wmemcellnmos_dram,
-         curr_area_cell_dram = 0, curr_asp_ratio_cell_dram = 1, curr_Wmemcella_sram, // curr_area_cell_dram, curr_asp_ratio_cell_dram are sometimes not initialised, yet used in sqrt, so set some default value. (1 is to avoid division by 0.)
-         curr_Wmemcellpmos_sram, curr_Wmemcellnmos_sram, curr_area_cell_sram,
-         curr_asp_ratio_cell_sram, curr_I_off_dram_cell_worst_case_length_temp;
-  double curr_Wmemcella_cam, curr_Wmemcellpmos_cam, curr_Wmemcellnmos_cam, curr_area_cell_cam,//Sheng: CAM data
+  double curr_Wmemcella_dram = 0., curr_Wmemcellpmos_dram, curr_Wmemcellnmos_dram,
+         curr_area_cell_dram = 0., curr_asp_ratio_cell_dram = 1, curr_Wmemcella_sram = 0., // curr_area_cell_dram, curr_asp_ratio_cell_dram are sometimes not initialised, yet used in sqrt, so set some default value. (1 is to avoid division by 0.)
+         curr_Wmemcellpmos_sram = 0., curr_Wmemcellnmos_sram = 0., curr_area_cell_sram = 0.,
+         curr_asp_ratio_cell_sram, curr_I_off_dram_cell_worst_case_length_temp = 0.;
+  double curr_Wmemcella_cam = 0., curr_Wmemcellpmos_cam = 0., curr_Wmemcellnmos_cam = 0., curr_area_cell_cam = 0.,//Sheng: CAM data
          curr_asp_ratio_cell_cam;
-  double SENSE_AMP_D, SENSE_AMP_P; // J
+  double SENSE_AMP_D = 0., SENSE_AMP_P = 0.; // J
   double area_cell_dram = 0;
   double asp_ratio_cell_dram = 0;
   double area_cell_sram = 0;
@@ -167,7 +167,7 @@ void init_tech_params(double technology, bool is_tag)
 //      tech_lo = 22;
 //      tech_hi = 16;
 //    }
-      else
+  else
     {
   	  cout<<"Invalid technology nodes"<<endl;
   	  exit(0);
@@ -187,7 +187,6 @@ void init_tech_params(double technology, bool is_tag)
   double c_fringe[NUMBER_TECH_FLAVORS];
   double c_junc[NUMBER_TECH_FLAVORS];
   double I_on_n[NUMBER_TECH_FLAVORS];
-  double I_on_p[NUMBER_TECH_FLAVORS];
   double Rnchannelon[NUMBER_TECH_FLAVORS];
   double Rpchannelon[NUMBER_TECH_FLAVORS];
   double n_to_p_eff_curr_drv_ratio[NUMBER_TECH_FLAVORS];
@@ -249,7 +248,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[0]  = (Aggre_proj? 1.9/1.2:2)*0.08e-15;//F/micron
       c_junc[0] = (Aggre_proj? 1.9/1.2:2)*1e-15;//F/micron2
       I_on_n[0] = 750e-6*pow((vdd_real[0]-v_th[0])/(vdd[0]-v_th[0]),alpha_power_law[0]);//A/micron
-      I_on_p[0] = 350e-6;//A/micron
       //Note that nmos_effective_resistance_multiplier, n_to_p_eff_curr_drv_ratio and gmp_to_gmn_multiplier values are calculated offline
       nmos_effective_resistance_multiplier = 1.54;
       n_to_p_eff_curr_drv_ratio[0] = 2.45;
@@ -322,7 +320,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[0]  = 0.08e-15;//F/micron
       c_junc[0] = 1e-15;//F/micron2
       I_on_n[0] = 1076.9e-6*pow((vdd_real[0]-v_th[0])/(vdd[0]-v_th[0]),alpha_power_law[0]);//A/micron with ap-law applied for dvs and arbitrary vdd
-      I_on_p[0] = 712.6e-6;//A/micron
       //Note that nmos_effective_resistance_multiplier, n_to_p_eff_curr_drv_ratio and gmp_to_gmn_multiplier values are calculated offline
       nmos_effective_resistance_multiplier = 1.54;
       n_to_p_eff_curr_drv_ratio[0] = 2.45;
@@ -369,7 +366,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[1]  = 0.08e-15;
       c_junc[1] = 1e-15;
       I_on_n[1] = 503.6e-6*pow((vdd_real[1]-v_th[1])/(vdd[1]-v_th[1]),alpha_power_law[1]);
-      I_on_p[1] = 235.1e-6;
       nmos_effective_resistance_multiplier = 1.92;
       n_to_p_eff_curr_drv_ratio[1] = 2.44;
       gmp_to_gmn_multiplier[1] =0.88;
@@ -415,7 +411,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[2] = 0.08e-15;
       c_junc[2] = 1e-15;
       I_on_n[2] = 386.6e-6*pow((vdd_real[2]-v_th[2])/(vdd[2]-v_th[2]),alpha_power_law[2]);
-      I_on_p[2] = 209.7e-6;
       nmos_effective_resistance_multiplier = 1.77;
       n_to_p_eff_curr_drv_ratio[2] = 2.54;
       gmp_to_gmn_multiplier[2] = 0.98;
@@ -474,7 +469,6 @@ void init_tech_params(double technology, bool is_tag)
         c_fringe[3] = 0.08e-15;
         c_junc[3] = 1e-15;
         I_on_n[3] = 321.6e-6;
-        I_on_p[3] = 203.3e-6;
         nmos_effective_resistance_multiplier = 1.65;
         n_to_p_eff_curr_drv_ratio[3] = 1.95;
         gmp_to_gmn_multiplier[3] = 0.90;
@@ -521,7 +515,6 @@ void init_tech_params(double technology, bool is_tag)
         c_fringe[3] = 0.08e-15;
         c_junc[3] = 1e-15;
         I_on_n[3] = 1094.3e-6;
-        I_on_p[3] = I_on_n[3] / 2;
         nmos_effective_resistance_multiplier = 1.62;
         n_to_p_eff_curr_drv_ratio[3] = 2.05;
         gmp_to_gmn_multiplier[3] = 0.90;
@@ -582,7 +575,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[0] = 0.077e-15;
       c_junc[0] = 1e-15;
       I_on_n[0] = 1197.2e-6*pow((vdd_real[0]-v_th[0])/(vdd[0]-v_th[0]),alpha_power_law[0]);
-      I_on_p[0] = 870.8e-6;
       nmos_effective_resistance_multiplier = 1.50;
       n_to_p_eff_curr_drv_ratio[0] = 2.41;
       gmp_to_gmn_multiplier[0] = 1.38;
@@ -629,7 +621,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[1] = 0.08e-15;
       c_junc[1] = 1e-15;
       I_on_n[1] = 519.2e-6*pow((vdd_real[1]-v_th[1])/(vdd[1]-v_th[1]),alpha_power_law[1]);
-      I_on_p[1] = 266e-6;
       nmos_effective_resistance_multiplier = 1.96;
       n_to_p_eff_curr_drv_ratio[1] = 2.23;
       gmp_to_gmn_multiplier[1] = 0.99;
@@ -675,7 +666,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[2] = 0.08e-15;
       c_junc[2] = 1e-15;
       I_on_n[2] = 573.1e-6*pow((vdd_real[2]-v_th[2])/(vdd[2]-v_th[2]),alpha_power_law[2]);
-      I_on_p[2] = 340.6e-6;
       nmos_effective_resistance_multiplier = 1.82;
       n_to_p_eff_curr_drv_ratio[2] = 2.28;
       gmp_to_gmn_multiplier[2] = 1.11;
@@ -734,7 +724,6 @@ void init_tech_params(double technology, bool is_tag)
         c_fringe[3] = 0.08e-15;
         c_junc[3] = 1e-15 ;
         I_on_n[3] = 399.8e-6;
-        I_on_p[3] = 243.4e-6;
         nmos_effective_resistance_multiplier = 1.65;
         n_to_p_eff_curr_drv_ratio[3] = 2.05;
         gmp_to_gmn_multiplier[3] = 0.90;
@@ -781,7 +770,6 @@ void init_tech_params(double technology, bool is_tag)
         c_fringe[3] = 0.08e-15;
         c_junc[3] = 1e-15 ;
         I_on_n[3] = 1031e-6;
-        I_on_p[3] = I_on_n[3] / 2;
         nmos_effective_resistance_multiplier = 1.69;
         n_to_p_eff_curr_drv_ratio[3] = 2.39;
         gmp_to_gmn_multiplier[3] = 0.90;
@@ -842,7 +830,6 @@ void init_tech_params(double technology, bool is_tag)
       I_on_n[0] = 2046.6e-6*pow((vdd_real[0]-v_th[0])/(vdd[0]-v_th[0]),alpha_power_law[0]);
       //There are certain problems with the ITRS PMOS numbers in MASTAR for 45nm. So we are using 65nm values of
       //n_to_p_eff_curr_drv_ratio and gmp_to_gmn_multiplier for 45nm
-      I_on_p[0] = I_on_n[0] / 2;//This value is fixed arbitrarily but I_on_p is not being used in CACTI
       nmos_effective_resistance_multiplier = 1.51;
       n_to_p_eff_curr_drv_ratio[0] = 2.41;
       gmp_to_gmn_multiplier[0] = 1.38;
@@ -888,7 +875,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[1] = 0.08e-15;
       c_junc[1] = 1e-15;
       I_on_n[1] = 666.2e-6*pow((vdd_real[1]-v_th[1])/(vdd[1]-v_th[1]),alpha_power_law[1]);
-      I_on_p[1] = I_on_n[1] / 2;
       nmos_effective_resistance_multiplier = 1.99;
       n_to_p_eff_curr_drv_ratio[1] = 2.23;
       gmp_to_gmn_multiplier[1] = 0.99;
@@ -934,7 +920,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[2] = 0.073e-15;
       c_junc[2] = 1e-15;
       I_on_n[2] = 748.9e-6*pow((vdd_real[2]-v_th[2])/(vdd[2]-v_th[2]),alpha_power_law[2]);
-      I_on_p[2] = I_on_n[2] / 2;
       nmos_effective_resistance_multiplier = 1.76;
       n_to_p_eff_curr_drv_ratio[2] = 2.28;
       gmp_to_gmn_multiplier[2] = 1.11;
@@ -993,7 +978,6 @@ void init_tech_params(double technology, bool is_tag)
         c_fringe[3] = 0.08e-15;
         c_junc[3] = 1e-15;
         I_on_n[3] = 456e-6;
-        I_on_p[3] = I_on_n[3] / 2;
         nmos_effective_resistance_multiplier = 1.65;
         n_to_p_eff_curr_drv_ratio[3] = 2.05;
         gmp_to_gmn_multiplier[3] = 0.90;
@@ -1040,7 +1024,6 @@ void init_tech_params(double technology, bool is_tag)
         c_fringe[3] = 0.08e-15;
         c_junc[3] = 1e-15;
         I_on_n[3] = 999.4e-6;
-        I_on_p[3] = I_on_n[3] / 2;
         nmos_effective_resistance_multiplier = 1.69;
         n_to_p_eff_curr_drv_ratio[3] = 1.95;
         gmp_to_gmn_multiplier[3] = 0.90;
@@ -1102,7 +1085,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[0] = 0.04e-15;
       c_junc[0] = 1e-15;
       I_on_n[0] =  2211.7e-6*pow((vdd_real[0]-v_th[0])/(vdd[0]-v_th[0]),alpha_power_law[0]);
-      I_on_p[0] = I_on_n[0] / 2;
       nmos_effective_resistance_multiplier = 1.49;
       n_to_p_eff_curr_drv_ratio[0] = 2.41;
       gmp_to_gmn_multiplier[0] = 1.38;
@@ -1163,7 +1145,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[1] = 0.053e-15;
       c_junc[1] = 1e-15;
       I_on_n[1] = 683.6e-6*pow((vdd_real[1]-v_th[1])/(vdd[1]-v_th[1]),alpha_power_law[1]);
-      I_on_p[1] = I_on_n[1] / 2;
       nmos_effective_resistance_multiplier = 1.99;
       n_to_p_eff_curr_drv_ratio[1] = 2.23;
       gmp_to_gmn_multiplier[1] = 0.99;
@@ -1210,7 +1191,6 @@ void init_tech_params(double technology, bool is_tag)
       c_fringe[2] = 0.057e-15;
       c_junc[2] = 1e-15;
       I_on_n[2] = 827.8e-6*pow((vdd_real[2]-v_th[2])/(vdd[2]-v_th[2]),alpha_power_law[2]);
-      I_on_p[2] = I_on_n[2] / 2;
       nmos_effective_resistance_multiplier = 1.73;
       n_to_p_eff_curr_drv_ratio[2] = 2.28;
       gmp_to_gmn_multiplier[2] = 1.11;
@@ -1269,7 +1249,6 @@ void init_tech_params(double technology, bool is_tag)
         c_fringe[3] = 0.053e-15;
         c_junc[3] = 1e-15;
         I_on_n[3] = 1055.4e-6;
-        I_on_p[3] = I_on_n[3] / 2;
         nmos_effective_resistance_multiplier = 1.65;
         n_to_p_eff_curr_drv_ratio[3] = 2.05;
         gmp_to_gmn_multiplier[3] = 0.90;
@@ -1316,7 +1295,6 @@ void init_tech_params(double technology, bool is_tag)
         c_fringe[3] = 0.053e-15;
         c_junc[3] = 1e-15;
         I_on_n[3] = 1024.5e-6;
-        I_on_p[3] = I_on_n[3] / 2;
         nmos_effective_resistance_multiplier = 1.69;
         n_to_p_eff_curr_drv_ratio[3] = 1.95;
         gmp_to_gmn_multiplier[3] = 0.90;
@@ -1376,7 +1354,6 @@ void init_tech_params(double technology, bool is_tag)
     	c_fringe[0] = 0.06e-15;//F/micron
     	c_junc[0] = 0;//F/micron2
     	I_on_n[0] =  2626.4e-6*pow((vdd_real[0]-v_th[0])/(vdd[0]-v_th[0]),alpha_power_law[0]);//A/micron
-    	I_on_p[0] = I_on_n[0] / 2;//A/micron //This value for I_on_p is not really used.
         nmos_effective_resistance_multiplier = 1.45;
         n_to_p_eff_curr_drv_ratio[0] = 2; //Wpmos/Wnmos = 2 in 2007 MASTAR. Look in
     	//"Dynamic" tab of Device workspace.
@@ -1423,7 +1400,6 @@ void init_tech_params(double technology, bool is_tag)
     	c_fringe[1] = 0.08e-15;
     	c_junc[1] = 0;//F/micron2
     	I_on_n[1] = 727.6e-6*pow((vdd_real[1]-v_th[1])/(vdd[1]-v_th[1]),alpha_power_law[1]);//A/micron
-    	I_on_p[1] = I_on_n[1] / 2;
     	nmos_effective_resistance_multiplier = 1.99;
     	n_to_p_eff_curr_drv_ratio[1] = 2;
     	gmp_to_gmn_multiplier[1] = 0.99;
@@ -1469,7 +1445,6 @@ void init_tech_params(double technology, bool is_tag)
     	c_fringe[2] = 0.08e-15;
     	c_junc[2] = 0;//F/micron2 This is Cj0 not Cjunc in MASTAR results->Dynamic Tab
     	I_on_n[2] = 916.1e-6*pow((vdd_real[2]-v_th[2])/(vdd[2]-v_th[2]),alpha_power_law[2]);//A/micron
-    	I_on_p[2] = I_on_n[2] / 2;
     	nmos_effective_resistance_multiplier = 1.73;
     	n_to_p_eff_curr_drv_ratio[2] = 2;
     	gmp_to_gmn_multiplier[2] = 1.11;
@@ -1537,7 +1512,6 @@ void init_tech_params(double technology, bool is_tag)
     		c_fringe[3] = 0.053e-15;//F/micron
     		c_junc[3] = 1e-15;//F/micron2
     		I_on_n[3] = 910.5e-6;//A/micron
-    		I_on_p[3] = I_on_n[3] / 2;//This value for I_on_p is not really used.
     		nmos_effective_resistance_multiplier = 1.69;//Using the value from 32nm.
     		//
     		n_to_p_eff_curr_drv_ratio[3] = 1.95;//Using the value from 32nm
@@ -1599,7 +1573,6 @@ void init_tech_params(double technology, bool is_tag)
     	c_fringe[0] = 0.06e-15;//F/micron MASTAR inputdynamic/3
     	c_junc[0] = 0;//F/micron2 MASTAR result dynamic
     	I_on_n[0] =  2768.4e-6;//A/micron
-    	I_on_p[0] = I_on_n[0] / 2;//A/micron //This value for I_on_p is not really used.
         nmos_effective_resistance_multiplier = 1.48;//nmos_effective_resistance_multiplier  is the ratio of Ieff to Idsat where Ieff is the effective NMOS current and Idsat is the saturation current.
         n_to_p_eff_curr_drv_ratio[0] = 2; //Wpmos/Wnmos = 2 in 2007 MASTAR. Look in
     	//"Dynamic" tab of Device workspace.
@@ -1644,7 +1617,6 @@ void init_tech_params(double technology, bool is_tag)
 //    	c_fringe[1] = 0.008e-15;
 //    	c_junc[1] = 0;//F/micron2
 //    	I_on_n[1] = 727.6e-6;//A/micron
-//    	I_on_p[1] = I_on_n[1] / 2;
 //    	nmos_effective_resistance_multiplier = 1.99;
 //    	n_to_p_eff_curr_drv_ratio[1] = 2;
 //    	gmp_to_gmn_multiplier[1] = 0.99;
@@ -1710,7 +1682,6 @@ void init_tech_params(double technology, bool is_tag)
     		c_fringe[3] = 0.053e-15;//F/micron
     		c_junc[3] = 1e-15;//F/micron2
     		I_on_n[3] = 910.5e-6;//A/micron
-    		I_on_p[3] = I_on_n[3] / 2;//This value for I_on_p is not really used.
     		nmos_effective_resistance_multiplier = 1.69;//Using the value from 32nm.
     		//
     		n_to_p_eff_curr_drv_ratio[3] = 1.95;//Using the value from 32nm
@@ -1961,7 +1932,6 @@ void init_tech_params(double technology, bool is_tag)
 
   g_tp.dram_acc.C_overlap = 0.2 * g_tp.dram_acc.C_g_ideal;
   g_tp.dram_acc.R_nch_on = g_tp.dram_cell_Vdd / g_tp.dram_acc.I_on_n;
-  //g_tp.dram_acc.R_pch_on = g_tp.dram_cell_Vdd / g_tp.dram_acc.I_on_p;
 
   g_tp.dram_wl.C_overlap = 0.2 * g_tp.dram_wl.C_g_ideal;
 
