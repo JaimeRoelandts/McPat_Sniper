@@ -89,7 +89,7 @@ Mat::Mat(const DynamicParameter & dyn_p)
 
   }
 
-  double number_sa_subarray;
+  int number_sa_subarray;
 
   if (!is_fa && !pure_cam)
   {
@@ -115,11 +115,11 @@ Mat::Mat(const DynamicParameter & dyn_p)
     {
 	    R_wire_wl_drv_out = subarray.num_cols * cell.w * g_tp.wire_local.R_per_um;
     }
-    else if (is_fa && !pure_cam)
+  else if (is_fa && !pure_cam)
     {
     	R_wire_wl_drv_out = (subarray.num_cols_fa_cam * cam_cell.w + subarray.num_cols_fa_ram * cell.w) * g_tp.wire_local.R_per_um ;
     }
-    else
+  else
     {
     	R_wire_wl_drv_out = (subarray.num_cols_fa_cam * cam_cell.w ) * g_tp.wire_local.R_per_um;
     }
@@ -130,20 +130,20 @@ Mat::Mat(const DynamicParameter & dyn_p)
   if (deg_bl_muxing > 1)
   {
     C_ld_bit_mux_dec_out =
-      (2 * num_subarrays_per_mat * subarray.num_cols / deg_bl_muxing)*gate_C(g_tp.w_nmos_b_mux, 0, is_dram) +  // 2 transistor per cell
+      (int)(2 * num_subarrays_per_mat * subarray.num_cols / deg_bl_muxing)*gate_C(g_tp.w_nmos_b_mux, 0, is_dram) +  // 2 transistor per cell
       num_subarrays_per_row * subarray.num_cols*g_tp.wire_inside_mat.C_per_um*cell.get_w();
   }
 
   if (dp.Ndsam_lev_1 > 1)
   {
     C_ld_sa_mux_lev_1_dec_out =
-      (num_subarrays_per_mat * number_sa_subarray / dp.Ndsam_lev_1)*gate_C(g_tp.w_nmos_sa_mux, 0, is_dram) +
+      (int)(num_subarrays_per_mat * number_sa_subarray / dp.Ndsam_lev_1)*gate_C(g_tp.w_nmos_sa_mux, 0, is_dram) +
       num_subarrays_per_row * subarray.num_cols*g_tp.wire_inside_mat.C_per_um*cell.get_w();
   }
   if (dp.Ndsam_lev_2 > 1)
   {
     C_ld_sa_mux_lev_2_dec_out =
-      (num_subarrays_per_mat * number_sa_subarray / (dp.Ndsam_lev_1*dp.Ndsam_lev_2))*gate_C(g_tp.w_nmos_sa_mux, 0, is_dram) +
+      (int)(num_subarrays_per_mat * number_sa_subarray / (dp.Ndsam_lev_1*dp.Ndsam_lev_2))*gate_C(g_tp.w_nmos_sa_mux, 0, is_dram) +
       num_subarrays_per_row * subarray.num_cols*g_tp.wire_inside_mat.C_per_um*cell.get_w();
   }
 
@@ -213,7 +213,7 @@ Mat::Mat(const DynamicParameter & dyn_p)
 	  R_wire_predec_blk_out  = num_subarrays_per_row * subarray.num_rows * g_tp.wire_inside_mat.R_per_um * cell.h;
 
       }
-      else //for pre-decode block's load is same for both FA and CAM
+  else //for pre-decode block's load is same for both FA and CAM
       {
     	  C_wire_predec_blk_out  = subarray.num_rows * g_tp.wire_inside_mat.C_per_um * cam_cell.h;
     	  R_wire_predec_blk_out  = subarray.num_rows * g_tp.wire_inside_mat.R_per_um * cam_cell.h;
@@ -321,7 +321,7 @@ Mat::Mat(const DynamicParameter & dyn_p)
    * rather than just simply switch w with h )
    * */
   double h_subarray_out_drv = subarray_out_wire->area.get_area() *
-    (subarray.num_cols / (deg_bl_muxing * dp.Ndsam_lev_1 * dp.Ndsam_lev_2)) / subarray.area.get_w();
+    (int)(subarray.num_cols / (deg_bl_muxing * dp.Ndsam_lev_1 * dp.Ndsam_lev_2)) / subarray.area.get_w();
 
 
   h_subarray_out_drv *= (RWP + ERP + SCHP);
@@ -372,7 +372,7 @@ Mat::Mat(const DynamicParameter & dyn_p)
       g_tp.wire_inside_mat.pitch * (RWP + ERP + EWP);
 
 
-  double h_non_cell_area = (num_subarrays_per_mat / num_subarrays_per_row) *
+  double h_non_cell_area = (int)(num_subarrays_per_mat / num_subarrays_per_row) *
                            (h_bit_mux_sense_amp_precharge_sa_mux_write_driver_write_mux +
                             h_subarray_out_drv + h_comparators);
 
@@ -394,21 +394,21 @@ Mat::Mat(const DynamicParameter & dyn_p)
   double h_addr_datain_wires;
   if (!g_ip->ver_htree_wires_over_array)
   {
-    h_addr_datain_wires = (dp.number_addr_bits_mat + dp.number_way_select_signals_mat +
+    h_addr_datain_wires = (int)(dp.number_addr_bits_mat + dp.number_way_select_signals_mat +
                                   (dp.num_di_b_mat + dp.num_do_b_mat)/num_subarrays_per_row) *
                                  g_tp.wire_inside_mat.pitch * (RWP + ERP + EWP);
 
     if (is_fa || pure_cam)
     {
-    	h_addr_datain_wires = (dp.number_addr_bits_mat + dp.number_way_select_signals_mat +     //TODO: revisit
+    	h_addr_datain_wires = (int)(dp.number_addr_bits_mat + dp.number_way_select_signals_mat +     //TODO: revisit
     			              (dp.num_di_b_mat+ dp.num_do_b_mat )/num_subarrays_per_row) *
     			               g_tp.wire_inside_mat.pitch * (RWP + ERP + EWP) +
-    			               (dp.num_si_b_mat + dp.num_so_b_mat )/num_subarrays_per_row * g_tp.wire_inside_mat.pitch * SCHP;
+    			               (int)((dp.num_si_b_mat + dp.num_so_b_mat )/num_subarrays_per_row) * g_tp.wire_inside_mat.pitch * SCHP;
     }
     //h_non_cell_area = 2 * h_bit_mux_sense_amp_precharge_sa_mux +
     //MAX(h_addr_datain_wires, 2 * h_subarray_out_drv);
     h_non_cell_area = (h_bit_mux_sense_amp_precharge_sa_mux_write_driver_write_mux + h_comparators +
-                       h_subarray_out_drv) * (num_subarrays_per_mat / num_subarrays_per_row) +
+                       h_subarray_out_drv) * (int)(num_subarrays_per_mat / num_subarrays_per_row) +
                       h_addr_datain_wires +
                       h_bit_mux_dec_out_wires +
                       h_senseamp_mux_dec_out_wires;
@@ -442,7 +442,7 @@ Mat::Mat(const DynamicParameter & dyn_p)
 //  if (!is_fa)
 //  {
     assert(num_subarrays_per_mat/num_subarrays_per_row>0);
-    area.h = (num_subarrays_per_mat/num_subarrays_per_row)* subarray.area.h + h_non_cell_area;
+    area.h = (int)(num_subarrays_per_mat/num_subarrays_per_row)* subarray.area.h + h_non_cell_area;
     area.w = num_subarrays_per_row * subarray.area.get_w() + w_non_cell_area;
     area.w = (area.h*area.w + area_mat_center_circuitry) / area.h;
     area_efficiency_mat = subarray.area.get_area() * num_subarrays_per_mat * 100.0 / area.get_area();
