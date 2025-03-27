@@ -30,6 +30,7 @@
  ***************************************************************************/
 
 #include "arbiter.h"
+#include "wire.h"
 
 Arbiter::Arbiter(
     double n_req,

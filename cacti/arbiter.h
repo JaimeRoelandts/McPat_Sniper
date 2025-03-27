@@ -32,14 +32,8 @@
 #ifndef __ARBITER__
 #define __ARBITER__
 
-#include <assert.h>
-#include <iostream>
-#include "basic_circuit.h"
-#include "cacti_interface.h"
 #include "component.h"
 #include "parameter.h"
-#include "mat.h"
-#include "wire.h"
 
 class Arbiter : public Component
 {
@@ -69,7 +63,6 @@ class Arbiter : public Component
     double NTtr, PTtr;
     double o_len;
     TechnologyParameter::DeviceType *deviceType;
-    double TriS1, TriS2;
     double min_w_pmos, Vdd;
 
 };
