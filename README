@@ -8,6 +8,11 @@ McPAT: (M)ulti(c)ore (P)ower, (A)rea, and (T)iming
 Current version 1.3
 ==================================================
 
+This is a modified version that fixes:
+- Reading values from the XML is now properly formated with vectors. Such that buffer overflows cannot happen anymore, and can be run with any arbitrary amounts of resources.
+- Adds the memoization technique included in the McPat written for the Sniper simulator. This allows to keep the calculations done by CACTI around, to be re-used instead of recaclulated later on, during the same execution or over multiple executions. To enable this modification, please run `make CACHE=1`. You need to install [lmdb](https://www.openldap.org/), on most linux systems, this can be installed through the package manager (`apt install liblmdb-dev` for Debian systems).
+- Various compilation issues
+
 * What McPAT is: 
 
 	--Architectural integrated power, area, and timing modeling framework, focuses on power and area modeling, with a target clock rate as a design constraint. 

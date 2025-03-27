@@ -20,6 +20,14 @@ else
   #OPT = -O0 -DNTHREADS=$(NTHREADS)
 endif
 
+# This allows to speed-up execution between runs of mcpat, by keeping intermediate results into a database. (This has nothing to do with CPU-caching.)
+ifneq ($(CACHE),)
+  OPT += -DENABLE_MEMOIZATION
+  LIBS += -llmdb
+else
+  $(warning Results memoization is disabled by default. Please install lmdb and run make with CACHE=1.)
+endif
+
 #CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
 CXXFLAGS = -Wno-unknown-pragmas $(DBG) $(OPT) 
 CXX = g++
@@ -59,7 +67,8 @@ SRCS  = \
   technology.cc \
   uca.cc \
   wire.cc \
-  powergating.cc
+  powergating.cc \
+  results_db.cc
 
 OBJS = $(patsubst %.cc,obj_$(TAG)/%.o,$(SRCS))
 
@@ -77,5 +86,3 @@ obj_$(TAG)/%.o : %.cc
 
 clean:
 	-rm -f *.o $(TARGET)
-
-
