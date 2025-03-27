@@ -1265,7 +1265,7 @@ uca_org_t cacti_interface(
     {
   	  g_ip->force_cache_config = false;
     }
-    else
+  else
     {
     	g_ip->force_cache_config = true;
     	g_ip->ndbl=ndbl;
@@ -1765,7 +1765,7 @@ void output_data_csv(const uca_org_t & fin_res)
     {
     	file << fin_res.power.searchOp.dynamic*1e+9 << ", ";
     }
-    	else
+    else
     {
     		file << "N/A" << ", ";
     }
