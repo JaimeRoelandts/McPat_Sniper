@@ -76,7 +76,7 @@ class Nuca : public Component
 {
   public:
     Nuca(
-        TechnologyParameter::DeviceType *dt = &(g_tp.peri_global));
+        TechnologyParameter::DeviceType *dt);
     void print_router();
     ~Nuca();
     void sim_nuca();

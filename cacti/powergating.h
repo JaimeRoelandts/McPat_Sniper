@@ -73,7 +73,7 @@ public:
 
 
 //	void   compute_area();
-	void compute_penalty();  // return outrisetime
+	void compute_penalty();
 
 	void leakage_feedback(double temperature){};
 	~Sleep_tx(){};

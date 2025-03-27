@@ -42,7 +42,9 @@ unsigned int MIN_BANKSIZE=65536;
 
 int cont_stats[2 /*l2 or l3*/][5/* cores */][ROUTER_TYPES][7 /*banks*/][8 /* cycle time */];
 
-Nuca::Nuca(TechnologyParameter::DeviceType *dt):deviceType(dt)
+  Nuca::Nuca(
+      TechnologyParameter::DeviceType *dt = &(g_tp.peri_global)
+      ):deviceType(dt)
 {
   init_cont();
 }
@@ -205,7 +207,7 @@ Nuca::sim_nuca()
     }
   }
 
-  iterations = (int)logtwo((int)(g_ip->cache_sz/MIN_BANKSIZE));
+  iterations = (int)logtwo((int)g_ip->cache_sz/MIN_BANKSIZE);
 
   if (g_ip->force_wiretype)
   {
@@ -234,8 +236,8 @@ Nuca::sim_nuca()
   }
   cout << "Simulating various NUCA configurations\n";
   for (it=bank_start; it<iterations; it++) { /* different bank count values */
-    ures.tag_array2 = tag;
-    ures.data_array2 = data;
+    ures.tag_array2 = &tag;
+    ures.data_array2 = &data;
     /*
      * find the optimal bank organization
      */
@@ -367,17 +369,15 @@ Nuca::sim_nuca()
 
         if (it < 7) {
           nuca_list.back()->nuca_pda.delay = opt_acclat +
-            cont_stats[l2_c][core_in][ro][it][int(num_cyc/2-1)];
+            cont_stats[l2_c][core_in][ro][it][num_cyc/2-1];
           nuca_list.back()->contention =
-            cont_stats[l2_c][core_in][ro][it][int(num_cyc/2-1)];
+            cont_stats[l2_c][core_in][ro][it][num_cyc/2-1];
         }
         else {
           nuca_list.back()->nuca_pda.delay = opt_acclat +
-            // cont_stats[l2_c][core_in][ro][7][int(num_cyc/2-1)];
-            cont_stats[l2_c][core_in][ro][6][int(num_cyc/2-1)];
+            cont_stats[l2_c][core_in][ro][7][num_cyc/2-1];
           nuca_list.back()->contention =
-            // cont_stats[l2_c][core_in][ro][7][int(num_cyc/2-1)];
-            cont_stats[l2_c][core_in][ro][6][int(num_cyc/2-1)];
+            cont_stats[l2_c][core_in][ro][7][num_cyc/2-1];
         }
         nuca_list.back()->nuca_pda.power.readOp.dynamic = opt_dyn_power;
         nuca_list.back()->nuca_pda.power.readOp.leakage = opt_leakage_power;

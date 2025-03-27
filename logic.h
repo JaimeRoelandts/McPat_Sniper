@@ -31,20 +31,11 @@
 #ifndef LOGIC_H_
 #define LOGIC_H_
 
-#include "const.h"
 #include "component.h"
 #include "basic_components.h"
-#include "basic_circuit.h"
 #include "cacti_interface.h"
 #include "decoder.h"
-#include "parameter.h"
-#include "xmlParser.h"
 #include "XML_Parse.h"
-#include "arch_const.h"
-#include <cstring>
-#include <iostream>
-#include <cmath>
-#include <cassert>
 
 
 using namespace std;

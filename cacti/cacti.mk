@@ -12,22 +12,12 @@ LIBS =
 INCS = -lm
 
 ifeq ($(TAG),dbg)
-  DBG = -Wall 
-  OPT = -ggdb -g -O0 -DNTHREADS=1  -gstabs+
+  DBG = -Wall
+  OPT = -ggdb -g -O0 -DNTHREADS=1
 else
   DBG = 
   OPT = -O3 -msse2 -mfpmath=sse -DNTHREADS=$(NTHREADS)
 endif
-
-ifeq ($(ARCH),ia32)
-  OPT += -m32
-endif
-
-ifneq ($(CACHE),)
-  OPT += -DENABLE_CACHE
-  LIBS += -ldb
-endif
-
 
 #CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
 CXXFLAGS = -Wno-unknown-pragmas $(DBG) $(OPT) 
