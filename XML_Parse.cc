@@ -54,7 +54,7 @@ void PredictorSystemCore::set_xml(const boost::property_tree::ptree& xml_pt){
 		std::string name  = node.get<std::string>("<xmlattr>.name");
 		if (param.first == "param") {
 			if (name == "prediction_width") 		prediction_width 		=node.get<int>("<xmlattr>.value");
-			else if (name == "prediction_scheme") 		prediction_scheme 		=node.get<int>("<xmlattr>.value");
+			else if (name == "prediction_scheme") 		prediction_scheme 		=node.get<std::string>("<xmlattr>.value");
 			else if (name == "predictor_size") 		predictor_size 			=node.get<int>("<xmlattr>.value");
 			else if (name == "predictor_entries") 		predictor_entries 		=node.get<int>("<xmlattr>.value");
 			else if (name == "local_predictor_size") 	ParseXML::split_string(node.get<std::string>("<xmlattr>.value"),local_predictor_size);
