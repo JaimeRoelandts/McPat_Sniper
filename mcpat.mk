@@ -25,7 +25,9 @@ ifneq ($(CACHE),)
   OPT += -DENABLE_MEMOIZATION
   LIBS += -llmdb
 else
-  $(warning Results memoization is disabled by default. Please install lmdb and run make with CACHE=1.)
+  ifneq ($(MAKECMDGOALS),clean)
+    $(warning Results memoization is disabled by default. Please install lmdb and run make with CACHE=1.)
+  endif
 endif
 
 #CXXFLAGS = -Wall -Wno-unknown-pragmas -Winline $(DBG) $(OPT) 
