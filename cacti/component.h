@@ -48,6 +48,8 @@ class Component
     Component();
     ~Component();
 
+    friend std::ostream& operator<<(std::ostream& os, const Component& comp);
+
     Area area;
     powerDef power,rt_power;
     double delay;

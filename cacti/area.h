@@ -63,6 +63,8 @@ class Area
   void set_h(double h_) { h = h_; }
   void set_area(double a_) { area = a_; }
 
+  friend std::ostream& operator<<(std::ostream& os, const Area& area);
+
  private:
   double area;
 };

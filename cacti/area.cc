@@ -42,5 +42,7 @@
 
 using namespace std;
 
-
-
+std::ostream& operator<<(std::ostream& os, const Area& area){
+	os << "width: " << area.w << " , height: " << area.h << std::endl;
+	return os;
+}

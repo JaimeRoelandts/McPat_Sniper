@@ -313,8 +313,8 @@ class SystemCore{
 		double main_memory_access		= 1;
 		double main_memory_read			= 1;
 		double main_memory_write		= 1;
-		double pipeline_duty_cycle		= 1;
 
+		double pipeline_duty_cycle		= 0;
 		double IFU_duty_cycle 			= 1;
 		double BR_duty_cycle 			= 1;
 		double LSU_duty_cycle 			= 1;

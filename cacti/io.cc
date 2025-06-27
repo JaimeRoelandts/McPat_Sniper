@@ -826,6 +826,17 @@ powerComponents operator*(const powerComponents & x, double const * const y)
   return z;
 }
 
+std::ostream& operator<<(std::ostream& os, const powerComponents& powercomp){
+	os << "dynamic" << powercomp.dynamic << std::endl
+		<< "leakage " << powercomp.leakage << std::endl
+		<< "gate_leakage " << powercomp.gate_leakage << std::endl
+		<< "short_circuit " << powercomp.short_circuit << std::endl
+		<< "longer_channel_leakage " << powercomp.longer_channel_leakage << std::endl
+		<< "power_gated_leakage " << powercomp.power_gated_leakage << std::endl
+		<< "power_gated_with_long_channel_leakage " << powercomp.power_gated_with_long_channel_leakage;
+	return os;
+}
+
 
 powerDef operator+(const powerDef & x, const powerDef & y)
 {
@@ -845,6 +856,13 @@ powerDef operator*(const powerDef & x, double const * const y)
   z.writeOp  = x.writeOp*y;
   z.searchOp = x.searchOp*y;
   return z;
+}
+
+std::ostream& operator<<(std::ostream& os, const powerDef& powerdef){
+	os << "read operation " << std::endl << powerdef.readOp << std::endl
+		<< "write operation " << std::endl << powerdef.writeOp << std::endl
+		<< "search operation " << std::endl << powerdef.searchOp << std::endl;
+	return os;
 }
 
 uca_org_t cacti_interface(const string & infile_name)

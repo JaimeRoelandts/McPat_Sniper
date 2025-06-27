@@ -80,6 +80,7 @@ class powerComponents
 
     friend powerComponents operator+(const powerComponents & x, const powerComponents & y);
     friend powerComponents operator*(const powerComponents & x, double const * const y);
+    friend std::ostream& operator<<(std::ostream& os, const powerComponents& powercomp);
 };
 
 
@@ -96,6 +97,7 @@ class powerDef
 
     friend powerDef operator+(const powerDef & x, const powerDef & y);
     friend powerDef operator*(const powerDef & x, double const * const y);
+    friend std::ostream& operator<<(std::ostream& os, const powerDef& powerdef);
 };
 
 enum Wire_type

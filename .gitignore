@@ -30,3 +30,9 @@
 # McPAT custom
 mcpat
 obj_opt/
+
+# Cacti output
+*.csv
+
+# Vim sessions
+Session.vim

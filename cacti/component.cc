@@ -56,6 +56,15 @@ Component::~Component()
 }
 
 
+std::ostream& operator<<(std::ostream& os, const Component& comp){
+	os << "Delay: " << comp.delay << std::endl
+		<< "Cycle time: " << std::endl << comp.cycle_time << std::endl
+		<< "Comp Area: "  << std::endl << comp.area << std::endl
+		<< "Comp Power: "  << std::endl << comp.power << std::endl
+		<< "Comp RT_Power: "  << std::endl << comp.rt_power << std::endl;
+	return os;
+}
+
 
 double Component::compute_diffusion_width(int num_stacked_in, int num_folded_tr)
 {
